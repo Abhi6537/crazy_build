@@ -19,17 +19,17 @@ const kalam = Kalam({
 });
 
 export const metadata: Metadata = {
-  title: "CRAZY BUILD | Premium Hackathon",
-  description: "Join CRAZY BUILD 2026, the premier 8-hour hackathon by JISCE Coding Club powered by Rabbit AI hosted at JISCE Campus, Kalyani. Experience chaos, creativity, and code!",
+  title: "CRAZY BUILD | Coding Club JISCE",
+  description: "Join CRAZY BUILD 2026, the 8-hour hackathon. Experience chaos, creativity, and code!",
   openGraph: {
-    title: "CRAZY BUILD | Premium Hackathon",
-    description: "Join CRAZY BUILD 2026, the premier 8-hour hackathon by JISCE Coding Club powered by Rabbit AI hosted at JISCE Campus, Kalyani. Experience chaos, creativity, and code!",
+    title: "CRAZY BUILD | Coding Club JISCE",
+    description: "Join CRAZY BUILD 2026, the 8-hour hackathon. Experience chaos, creativity, and code!",
     images: ["/sharelogo.jpeg"],
   },
   twitter: {
-    card: "summary_large_image",
-    title: "CRAZY BUILD | Premium Hackathon",
-    description: "Join CRAZY BUILD 2026, the premier 48-hour hackathon hosted at JISCE Campus, Kalyani. Experience chaos, creativity, and code!",
+    card: "summary_large_image", 
+    title: "CRAZY BUILD | Coding Club JISCE",
+    description: "Join CRAZY BUILD 2026, the 8-hour hackathon. Experience chaos, creativity, and code!",
     images: ["/sharelogo.jpeg"],
   },
 };
