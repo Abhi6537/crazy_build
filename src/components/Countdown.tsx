@@ -44,8 +44,6 @@ export default function Countdown() {
     { label: "SECS", value: timeLeft.seconds },
   ];
 
-  if (!mounted) return null; // Avoid hydration mismatch
-
   return (
     <div className="flex gap-2 mb-4 md:mb-10 w-full justify-center md:justify-start transform md:-translate-y-4 lg:-translate-y-8 z-10 relative">
       <motion.div 
