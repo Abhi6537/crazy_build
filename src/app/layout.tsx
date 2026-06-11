@@ -32,8 +32,9 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${spaceGrotesk.variable} ${inter.variable} ${kalam.variable} scroll-smooth antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col font-sans overflow-x-hidden">
+      <body className="min-h-full flex flex-col font-sans overflow-x-hidden" suppressHydrationWarning>
         {children}
       </body>
     </html>
