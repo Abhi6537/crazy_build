@@ -5,6 +5,40 @@ import { motion } from "framer-motion";
 export default function Footer() {
   return (
     <footer className="relative bg-[#f9f8f6] py-6 md:py-8 overflow-hidden border-t-4 border-black" style={{ backgroundImage: 'var(--paper-grain)' }}>
+      {/* Floating Elements */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden hidden md:block">
+        <motion.div 
+          animate={{ y: [0, -10, 0], rotate: [0, 10, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+          className="absolute top-[20%] right-[10%] text-[#FF4D00] opacity-50"
+        >
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </motion.div>
+        
+        <motion.div 
+          animate={{ y: [0, 15, 0], rotate: 360 }}
+          transition={{ y: { repeat: Infinity, duration: 8, ease: "easeInOut" }, rotate: { repeat: Infinity, duration: 25, ease: "linear" } }}
+          className="absolute bottom-[30%] left-[40%] text-[#0055FF] opacity-40"
+        >
+          <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          </svg>
+        </motion.div>
+
+        <motion.div 
+          animate={{ x: [0, 10, 0], y: [0, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
+          className="absolute top-[40%] left-[15%] text-[#FF0033] opacity-40 transform -rotate-45"
+        >
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </motion.div>
+      </div>
+
       {/* Notebook holes */}
       <div className="absolute left-2 md:left-6 top-0 bottom-0 w-8 flex flex-col justify-between py-6 border-r-2 border-[#1a1a1a]/10">
         {[...Array(5)].map((_, i) => (
