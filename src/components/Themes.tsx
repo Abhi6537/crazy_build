@@ -196,7 +196,7 @@ export default function Themes() {
 
   return (
     <>
-      <section id="themes" className="py-12 md:py-16 relative overflow-hidden bg-white border-y-2 border-black">
+      <section id="themes" className="py-12 md:py-16 relative overflow-hidden border-y-2 border-black">
         <div className="container mx-auto px-4 md:px-6 max-w-7xl flex flex-col md:flex-row gap-8">
           
           {/* Left Side: THEMES Title */}
@@ -204,8 +204,8 @@ export default function Themes() {
             
             {/* Mobile Title */}
             <div className="md:hidden flex flex-col text-center w-full">
-              <h2 className="font-display font-black text-5xl uppercase leading-none tracking-widest">Themes</h2>
-              <span className="font-sans font-bold uppercase tracking-widest text-gray-500 mt-1">Problem Statements</span>
+              <h2 className="font-display font-black text-xl uppercase leading-none tracking-widest">Themes</h2>
+              <span className="font-sans font-bold uppercase text-sm tracking-widest text-gray-500 mt-1">Problem Statements</span>
             </div>
 
             {/* Desktop Vertical Layout */}
@@ -244,7 +244,7 @@ export default function Themes() {
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-8 bg-yellow-200/80 -rotate-2 mix-blend-multiply border border-black/10"></div>
               
               <div className="border-b-4 border-black pb-4 mb-8 relative flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <h3 className="font-display font-black text-4xl md:text-5xl uppercase z-10 shrink-0">
+                <h3 className="font-display font-black text-xl md:text-3xl uppercase z-10 shrink-0">
                   Pick Your Mission
                 </h3>
                 
@@ -271,7 +271,7 @@ export default function Themes() {
               </div>
 
             {/* Grid for Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-2 md:gap-6">
               {themesData.map((theme, i) => {
                 let colSpanClass = "col-span-1 md:col-span-2";
                 if (i === 3) colSpanClass = "col-span-1 md:col-start-2 md:col-span-2"; // 4th item centered
@@ -284,24 +284,24 @@ export default function Themes() {
                     whileHover={{ scale: 1.03, y: -4, rotate: i % 2 === 0 ? 1 : -1 }}
                     whileTap={{ scale: 0.98 }}
                     style={{ '--accent-color': theme.accent } as React.CSSProperties}
-                    className={`${colSpanClass} p-5 border-[3px] border-black shadow-[4px_4px_0_0_#1a1a1a] hover:shadow-[8px_8px_0_0_var(--accent-color)] transition-all group text-left flex flex-col justify-between min-h-[180px] relative overflow-hidden`}
+                    className={`${colSpanClass} p-3 md:p-5 border-2 md:border-[3px] border-black shadow-[3px_3px_0_0_#1a1a1a] md:shadow-[4px_4px_0_0_#1a1a1a] hover:shadow-[6px_6px_0_0_var(--accent-color)] md:hover:shadow-[8px_8px_0_0_var(--accent-color)] transition-all group text-left flex flex-col justify-between min-h-[90px] md:min-h-[180px] relative overflow-hidden`}
                   >
                     {/* Default minimal background tint & Hover tint */}
                     <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity" style={{ backgroundColor: theme.accent }}></div>
                     
                     {/* SVG Doodle Background per card */}
-                    <svg className="absolute -bottom-4 -right-4 w-24 h-24 opacity-20 group-hover:opacity-40 transition-opacity transform group-hover:rotate-12" style={{ color: theme.accent }} viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="absolute -bottom-2 -right-2 md:-bottom-4 md:-right-4 w-16 h-16 md:w-24 md:h-24 opacity-20 group-hover:opacity-40 transition-opacity transform group-hover:rotate-12" style={{ color: theme.accent }} viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
                       {i % 3 === 0 && <path d="M20,50 L80,50 M50,20 L50,80 M30,30 L70,70 M30,70 L70,30" />}
                       {i % 3 === 1 && <circle cx="50" cy="50" r="40" strokeDasharray="10 10" />}
                       {i % 3 === 2 && <path d="M10,90 Q50,10 90,90 T10,90" />}
                     </svg>
 
                     <div className="relative z-10">
-                      <span className="font-mono text-xs font-bold text-gray-700 group-hover:text-black transition-colors block mb-3 border-b-2 border-black/20 pb-1 w-full flex justify-between">
+                      <span className="font-mono text-[9px] md:text-xs font-bold text-gray-700 group-hover:text-black transition-colors block mb-1.5 md:mb-3 border-b-2 border-black/20 pb-0.5 md:pb-1 w-full flex justify-between">
                         <span>MISSION {theme.id}</span>
                         <span style={{ color: theme.accent }}>■</span>
                       </span>
-                      <h4 className="font-display font-black text-xl md:text-2xl uppercase leading-tight group-hover:text-[var(--accent-color)] transition-colors">
+                      <h4 className="font-display font-black text-sm md:text-2xl uppercase leading-tight group-hover:text-[var(--accent-color)] transition-colors pr-8 md:pr-0 mt-1 md:mt-0">
                         {theme.title}
                       </h4>
                     </div>

@@ -16,7 +16,7 @@ export default function Backers() {
   ];
 
   return (
-    <section id="backers" className="py-12 md:py-16 relative overflow-hidden bg-white">
+    <section id="backers" className="py-12 md:py-16 relative overflow-hidden">
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
 
@@ -33,7 +33,7 @@ export default function Backers() {
           <div className="absolute inset-0 border-4 border-black transform -translate-x-2 -translate-y-2 bg-[#FF4D00]/10 pointer-events-none"></div>
           <div className="absolute inset-0 border-4 border-black transform rotate-1 pointer-events-none"></div>
 
-          <div className="relative border-4 border-black bg-white p-6 md:p-10 shadow-[8px_8px_0_0_#1a1a1a] z-10">
+          <div className="relative border-4 border-black p-6 md:p-10 shadow-[8px_8px_0_0_#1a1a1a] z-10">
             
             {/* Tape Doodle */}
             <div className="absolute -top-5 right-10 transform w-20 h-8 bg-blue-200/80 rotate-3 mix-blend-multiply border border-black/10 z-20"></div>
@@ -49,8 +49,8 @@ export default function Backers() {
               {/* Highlight sweep effect */}
               <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-[#FF4D00]/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
               
-              <h2 className="font-display font-black text-4xl md:text-6xl uppercase text-[#0A1128] tracking-widest text-center relative z-10">
-                The Backers
+              <h2 className="font-display font-black text-xs md:text-xl uppercase text-[#0A1128] tracking-widest text-center relative z-10">
+                Sponsers & Partners
               </h2>
             </motion.div>
           </div>
@@ -99,7 +99,7 @@ export default function Backers() {
                   {/* Redacted Tape */}
                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] rotate-[-6deg] group-hover:rotate-[2deg] group-hover:scale-110 transition-all duration-300 z-20">
                     <div className="bg-black group-hover:bg-[var(--hover-accent)] transition-colors border-y-4 border-white py-2 md:py-3 text-center shadow-[0_4px_0_0_rgba(0,0,0,0.2)]">
-                      <span className="font-display font-black text-white text-lg md:text-xl uppercase tracking-[0.2em] whitespace-nowrap">
+                      <span className="font-display font-black text-white text-xs md:text-xl uppercase tracking-[0.2em] whitespace-nowrap">
                         Revealing Soon
                       </span>
                     </div>

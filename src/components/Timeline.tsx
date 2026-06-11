@@ -12,7 +12,7 @@ const milestones = [
 
 export default function Timeline() {
   return (
-    <section id="timeline" className="py-32 relative bg-white border-y-2 border-black overflow-hidden" style={{ backgroundImage: 'var(--paper-grain)' }}>
+    <section id="timeline" className="py-32 relative border-y-2 border-black overflow-hidden">
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="text-center mb-24 md:mb-32">
           <h2 className="font-display font-black text-5xl md:text-7xl uppercase inline-block relative">

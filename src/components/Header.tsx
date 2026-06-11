@@ -30,7 +30,7 @@ export default function Header() {
     { name: "Timeline", href: "#roadmap" },
     { name: "Themes", href: "#themes" },
     { name: "Sponsors", href: "#backers" },
-    { name: "Mentors", href: "#mentors" },
+    { name: "Judges", href: "#judges" },
     { name: "Team", href: "#team" },
   ];
 
@@ -50,14 +50,14 @@ export default function Header() {
         }`}
       >
         <div className="container mx-auto px-6 flex justify-between items-center">
-          <a href="#" className="font-display font-black text-2xl tracking-tighter uppercase relative group flex items-center gap-3 -ml-4 md:-ml-8">
+          <a href="#" className="font-['Gerbil'] font-bold text-s md:text-s lg:text-sm tracking-wide relative group flex items-center gap-3 -ml-4 md:-ml-8">
             <img 
               src="/logo.png" 
               alt="Logo" 
               draggable={false}
               className="w-10 h-10 object-contain mix-blend-multiply"
             />
-            <span className="relative z-10">CRAZY BUILD</span>
+            <span className="relative z-10">Crazy Build</span>
             <span className="absolute -bottom-1 left-12 w-[calc(100%-3rem)] h-3 bg-[#FF4D00]/20 -z-0 group-hover:bg-[#FF4D00]/40 transition-colors transform -skew-x-12"></span>
           </a>
 

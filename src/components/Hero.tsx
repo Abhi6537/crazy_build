@@ -1,9 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Countdown from "./Countdown";
 
 export default function Hero() {
+  const [showPopup, setShowPopup] = useState(false);
   return (
     <section className="relative min-h-[85vh] flex flex-col justify-center items-center overflow-hidden pt-8 pb-16">
       {/* Floating SVGs */}
@@ -87,13 +89,18 @@ export default function Hero() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex items-center justify-center md:justify-start gap-2 md:gap-4 mt-2 md:mt-8 mb-2 md:mb-4 w-full md:ml-12 lg:ml-20"
+            className="flex items-center justify-center md:justify-start gap-2 md:gap-4 mt-0 md:mt-8 mb-2 md:mb-4 w-full md:ml-12 lg:ml-20"
           >
-            <img src="/jis.png" alt="JIS College" className="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover shadow-[2px_2px_0_0_#1a1a1a] border-2 border-black bg-white" />
-            <span className="font-display font-black text-xl md:text-2xl text-black">×</span>
-            <img src="/codingclub.png" alt="Coding Club" className="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover shadow-[2px_2px_0_0_#1a1a1a] border-2 border-black bg-black" />
-            <span className="font-display font-black text-xl md:text-2xl text-black">×</span>
-            <img src="/rabbit.svg" alt="Rabbit Sponsor" className="h-10 md:h-14 w-auto object-contain shadow-[2px_2px_0_0_#1a1a1a] border-2 border-black rounded-lg" />
+            <img src="/jis.png" alt="JIS College" className="w-8 h-8 md:w-16 md:h-16 rounded-full object-cover shadow-[2px_2px_0_0_#1a1a1a] border-2 border-black bg-white" />
+            <span className="font-display font-black text-sm md:text-2xl text-black">×</span>
+            <img src="/codingclub.png" alt="Coding Club" className="w-8 h-8 md:w-16 md:h-16 rounded-full object-cover shadow-[2px_2px_0_0_#1a1a1a] border-2 border-black bg-black" />
+            <span className="font-display font-black text-sm md:text-2xl text-black">×</span>
+            <div className="flex flex-col items-center">
+              <span className="font-sans font-bold text-[5px] md:text-[8px] uppercase tracking-widest text-gray-500 mb-0.5 md:mb-0.5">Powered By</span>
+              <a href="https://rabbitt.ai/" target="_blank" rel="noopener noreferrer" className="inline-block hover:scale-105 transition-transform">
+                <img src="/rabbit.svg" alt="Rabbit Sponsor" className="h-6 md:h-14 w-auto object-contain shadow-[2px_2px_0_0_#1a1a1a] border-[1px] md:border-2 border-black rounded-md md:rounded-lg" />
+              </a>
+            </div>
           </motion.div>
 
           <motion.div 
@@ -106,7 +113,7 @@ export default function Hero() {
               alt="CRAZY BUILD"
               draggable={false}
               onContextMenu={(e) => e.preventDefault()}
-              className="w-[85vw] md:w-full max-w-[500px] h-auto object-contain mix-blend-multiply select-none pointer-events-none transform md:-translate-y-10"
+              className="w-auto h-auto max-h-[30vh] md:max-h-none md:w-full max-w-[500px] object-contain mix-blend-multiply select-none pointer-events-none transform md:-translate-y-10"
             />
           </motion.div>
         </div>
@@ -118,13 +125,13 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-lg md:text-2xl font-sans max-w-xl font-medium leading-relaxed -mt-2 md:-mt-8 relative z-10"
+            className="text-sm md:text-2xl font-sans max-w-xl font-medium leading-snug md:leading-relaxed mt-2 md:-mt-8 relative z-10"
           >
-            <div className="mb-4">
-              <span className="sketch-underline">From whiteboard to working Demo</span>
+            <div className="mb-2 md:mb-4">
+              <span className="sketch-underline pb-1 md:pb-4">From whiteboard to working Demo</span>
             </div>
             <div>
-              <span className="bg-[#FF4D00] text-white px-2 py-0.5 font-bold transform -rotate-1 inline-block shadow-sm">
+              <span className="bg-[#FF4D00] text-white px-1.5 md:px-2 py-0.5 font-bold transform -rotate-1 inline-block shadow-sm">
                 CRAZY-BUILD
               </span>
               {" "}compresses the full product cycle into one electric build sprint.
@@ -135,10 +142,10 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
-            className="mt-10 flex flex-col items-center md:items-start transform rotate-3 md:ml-6"
+            className="mt-4 md:mt-10 flex flex-col items-center md:items-start transform rotate-3 md:ml-6"
           >
-            <div className="font-handwriting text-3xl md:text-4xl text-[#FF0033] whitespace-nowrap">Join the chaos!</div>
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FF0033" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform rotate-[90deg] -mt-2 ml-12">
+            <div className="font-handwriting text-2xl md:text-4xl text-[#FF0033] whitespace-nowrap">Join the chaos!</div>
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FF0033" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform rotate-[90deg] -mt-2 ml-12 md:w-10 md:h-10 hidden md:block">
               <path d="M5 12h14"></path>
               <path d="m12 5 7 7-7 7"></path>
             </svg>
@@ -148,14 +155,68 @@ export default function Hero() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.5 }}
-            className="mt-2 flex flex-col sm:flex-row gap-6 md:gap-8"
+            className="mt-2 flex flex-col sm:flex-row gap-4 md:gap-8 w-full md:w-auto px-4 md:px-0"
           >
-            <button className="w-full sm:w-[350px] md:w-[400px] px-8 py-4 bg-[#FF4D00] text-white font-display font-bold text-lg uppercase tracking-wider hover:scale-105 transition-all shadow-[6px_6px_0_0_#1a1a1a] border-2 border-black z-10">
+            <button 
+              onClick={() => setShowPopup(true)}
+              className="w-full sm:w-[350px] md:w-[400px] px-4 md:px-8 py-3 md:py-4 bg-[#FF4D00] text-white font-display font-bold text-base md:text-lg uppercase tracking-wider hover:scale-105 transition-all shadow-[4px_4px_0_0_#1a1a1a] md:shadow-[6px_6px_0_0_#1a1a1a] border-2 border-black z-10"
+            >
               Register Now
             </button>
           </motion.div>
         </div>
       </div>
+
+      {/* Brutalist Modal */}
+      <AnimatePresence>
+        {showPopup && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            onClick={() => setShowPopup(false)}
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-[#FFB800] border-4 border-black p-6 md:p-10 shadow-[12px_12px_0_0_#1a1a1a] max-w-lg w-full relative"
+              style={{ backgroundImage: 'var(--paper-grain)' }}
+            >
+              {/* Close Button */}
+              <button 
+                onClick={() => setShowPopup(false)}
+                className="absolute -top-4 -right-4 w-10 h-10 bg-[#FF0033] border-2 border-black flex items-center justify-center text-white font-black text-xl shadow-[4px_4px_0_0_#1a1a1a] hover:translate-x-1 hover:translate-y-1 hover:shadow-[0px_0px_0_0_#1a1a1a] transition-all z-10"
+              >
+                ×
+              </button>
+              
+              {/* Tape */}
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-8 bg-[#0055FF]/80 -rotate-2 mix-blend-multiply border border-black/10 z-0"></div>
+
+              <div className="text-center relative z-10 pt-4">
+                <h2 className="font-display font-black text-3xl md:text-5xl uppercase tracking-widest text-[#0A1128] mb-4 leading-none">
+                  Hold Up!
+                </h2>
+                <div className="font-sans font-bold text-lg md:text-xl mb-6 bg-white border-2 border-black p-3 transform rotate-1 inline-block shadow-[4px_4px_0_0_#1a1a1a]">
+                  Registration is Opening Soon.
+                </div>
+                <p className="font-sans text-sm md:text-base font-medium text-black/80 max-w-sm mx-auto">
+                  We are putting the final touches on the arena. Check back shortly to secure your team's spot in the chaos.
+                </p>
+                <button 
+                  onClick={() => setShowPopup(false)}
+                  className="mt-8 px-8 py-3 bg-white border-2 border-black font-display font-bold uppercase tracking-wider shadow-[4px_4px_0_0_#1a1a1a] hover:translate-x-1 hover:translate-y-1 hover:shadow-[0px_0px_0_0_#1a1a1a] transition-all"
+                >
+                  Got It
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

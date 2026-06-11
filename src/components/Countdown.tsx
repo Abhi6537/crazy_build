@@ -47,25 +47,25 @@ export default function Countdown() {
   if (!mounted) return null; // Avoid hydration mismatch
 
   return (
-    <div className="flex gap-3 md:gap-4 mb-10 w-full justify-center md:justify-start transform md:-translate-y-8 lg:-translate-y-12">
-      {timeBlocks.map((block, i) => (
-        <motion.div 
-          key={block.label}
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 + i * 0.1, duration: 0.5, type: "spring", bounce: 0.4 }}
-          className="flex flex-col items-center"
-        >
-          <div className="w-14 h-14 md:w-20 md:h-20 bg-[#FF4D00] border-2 border-black shadow-[4px_4px_0_0_#1a1a1a] flex items-center justify-center transform hover:-translate-y-1 hover:shadow-[6px_6px_0_0_#1a1a1a] transition-all">
-            <span className="font-display font-black text-2xl md:text-4xl text-white">
-              {block.value.toString().padStart(2, "0")}
-            </span>
+    <div className="flex gap-2 mb-4 md:mb-10 w-full justify-center md:justify-start transform md:-translate-y-4 lg:-translate-y-8 z-10 relative">
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.5, type: "spring", bounce: 0.4 }}
+        className="bg-white border-2 border-black shadow-[4px_4px_0_0_#FF4D00] p-2 md:p-6 transform hover:-translate-y-1 transition-transform w-full md:max-w-md"
+      >
+        <div className="flex items-center md:items-start gap-2 md:gap-4">
+          <div className="text-xl md:text-3xl hidden sm:block"></div>
+          <div className="flex flex-col text-center sm:text-left w-full">
+            <h3 className="font-display font-black text-xs sm:text-sm md:text-xl text-[#0A1128] uppercase tracking-wider mb-0 md:mb-1">
+              Date & Time will announce soon
+            </h3>
+            <p className="font-sans font-bold text-[10px] sm:text-xs md:text-sm text-gray-600 leading-tight md:leading-relaxed">
+              All the things will be held after semester exams.
+            </p>
           </div>
-          <span className="mt-2 font-display font-bold text-xs md:text-sm tracking-widest uppercase text-[#1a1a1a]">
-            {block.label}
-          </span>
-        </motion.div>
-      ))}
+        </div>
+      </motion.div>
     </div>
   );
 }

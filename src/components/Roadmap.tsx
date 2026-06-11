@@ -13,7 +13,7 @@ export default function Roadmap() {
   ];
 
   return (
-    <section id="roadmap" className="py-8 md:py-12 relative overflow-hidden bg-white">
+    <section id="roadmap" className="py-8 md:py-12 relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 max-w-6xl flex flex-col lg:flex-row gap-6 relative">
         
         {/* Left Column - Vertical "THE ROADMAP" */}
@@ -34,7 +34,7 @@ export default function Roadmap() {
 
         {/* Mobile Title */}
         <div className="lg:hidden w-full mb-4 flex justify-center">
-          <h2 className="font-display font-black text-xl md:text-2xl uppercase text-white border-[3px] border-black inline-block px-3 py-1.5 bg-[#0A1128] shadow-[3px_3px_0_0_#1a1a1a]">
+          <h2 className="font-display font-black text-lg md:text-2xl uppercase text-white border-[3px] border-black inline-block px-3 py-1.5 bg-[#0A1128] shadow-[3px_3px_0_0_#1a1a1a]">
             The Roadmap
           </h2>
         </div>
@@ -85,7 +85,7 @@ export default function Roadmap() {
                 className="relative w-full max-w-4xl flex flex-col items-center justify-center pointer-events-auto -mt-6"
               >
                 <div className="w-[150%] bg-[#FFB800] border-y-4 border-black py-2 md:py-3 transform -rotate-3 flex overflow-hidden whitespace-nowrap shadow-2xl z-40">
-                  <div className="animate-marquee flex font-display font-black text-2xl md:text-3xl uppercase tracking-widest text-black">
+                  <div className="animate-marquee flex font-display font-black text-sm md:text-3xl uppercase tracking-widest text-black">
                     {[...Array(15)].map((_, i) => (
                       <span key={i} className="mx-2 md:mx-4">⚠️ REVEALING SOON ⚠️ CLASSIFIED </span>
                     ))}
@@ -93,7 +93,7 @@ export default function Roadmap() {
                 </div>
                 
                 <div className="w-[150%] bg-black border-y-4 border-black py-2 md:py-3 transform rotate-2 flex overflow-hidden whitespace-nowrap shadow-2xl -mt-4 md:-mt-6 z-30">
-                  <div className="animate-marquee-reverse flex font-display font-black text-2xl md:text-3xl uppercase tracking-widest text-[#FFB800]">
+                  <div className="animate-marquee-reverse flex font-display font-black text-sm md:text-3xl uppercase tracking-widest text-[#FFB800]">
                     {[...Array(15)].map((_, i) => (
                       <span key={i} className="mx-2 md:mx-4">TIMELINE LOCKED // STANDBY // </span>
                     ))}
