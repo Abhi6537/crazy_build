@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 export default function Header() {
   const { scrollY } = useScroll();
@@ -50,11 +51,13 @@ export default function Header() {
         }`}
       >
         <div className="container mx-auto px-6 flex justify-between items-center">
-          <a href="#" className="font-['Gerbil'] font-bold text-s md:text-s lg:text-sm tracking-wide relative group flex items-center gap-3 -ml-4 md:-ml-8">
-            <img 
+          <a href="#" className="font-['Gerbil'] font-bold text-s md:text-s lg:text-sm tracking-wide relative group flex items-center gap-3">
+            <Image 
               src="/logo.png" 
               alt="Logo" 
               draggable={false}
+              width={40}
+              height={40}
               className="w-10 h-10 object-contain mix-blend-multiply"
             />
             <span className="relative z-10">Crazy Build</span>
@@ -62,12 +65,12 @@ export default function Header() {
           </a>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex gap-6 lg:gap-8 items-center font-display font-bold text-sm uppercase tracking-widest px-8 py-3 bg-[#FF4D00] text-white shadow-[4px_4px_0_0_#1a1a1a] border-2 border-black">
+          <nav className="hidden lg:flex gap-4 xl:gap-8 items-center font-display font-bold text-xs xl:text-sm uppercase tracking-widest px-4 xl:px-8 py-2 xl:py-3 bg-[#FF4D00] text-white shadow-[4px_4px_0_0_#1a1a1a] border-2 border-black">
             {navLinks.map((link) => (
               <a 
                 key={link.name} 
                 href={link.href}
-                className="relative group hover:scale-110 transition-transform"
+                className="relative group hover:scale-110 transition-transform whitespace-nowrap"
               >
                 {link.name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all group-hover:w-full"></span>
@@ -77,7 +80,7 @@ export default function Header() {
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="md:hidden relative z-50 p-2"
+            className="lg:hidden relative z-50 p-2"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -90,7 +93,7 @@ export default function Header() {
         initial={{ opacity: 0, x: "100%" }}
         animate={{ opacity: mobileMenuOpen ? 1 : 0, x: mobileMenuOpen ? 0 : "100%" }}
         transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
-        className="fixed inset-0 z-40 bg-[#f9f8f6] flex flex-col justify-center items-center md:hidden"
+        className="fixed inset-0 z-40 bg-[#f9f8f6] flex flex-col justify-center items-center lg:hidden"
         style={{ backgroundImage: 'var(--paper-grain)' }}
       >
         <nav className="flex flex-col gap-8 text-center font-display font-bold text-4xl uppercase items-center">

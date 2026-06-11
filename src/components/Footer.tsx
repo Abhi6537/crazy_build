@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -25,21 +26,21 @@ export default function Footer() {
                 Crazy Build
               </h2>
               {/* Crazy Build Logo Placeholder */}
-              <img src="/logo.png" alt="Crazy Build Logo" className="h-6 md:h-8 w-auto object-contain" />
+              <Image src="/logo.png" alt="Crazy Build Logo" width={80} height={32} className="h-6 md:h-8 w-auto object-contain" />
             </div>
 
             {/* Powered By */}
             <div className="flex flex-row items-center gap-2 mt-1">
               <span className="font-sans font-bold text-[9px] md:text-[10px] uppercase tracking-widest text-gray-500">Powered By</span>
               <a href="https://rabbitt.ai/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-                <img src="/rabbit.svg" alt="Rabbitt AI" className="h-4 md:h-5 w-auto object-contain" />
+                <Image src="/rabbit.svg" alt="Rabbitt AI" width={100} height={20} className="h-4 md:h-5 w-auto object-contain" />
               </a>
             </div>
 
             {/* Organised By */}
             <div className="flex flex-row items-center gap-2 mt-1">
               <span className="font-sans font-bold text-[9px] md:text-[10px] uppercase tracking-widest text-gray-500">Organised by</span>
-              <img src="/codingclub.png" alt="Coding Club" className="h-5 md:h-6 w-auto object-contain" />
+              <Image src="/codingclub.png" alt="Coding Club" width={30} height={24} className="h-5 md:h-6 w-auto object-contain" />
             </div>
 
             {/* Location */}

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import Countdown from "./Countdown";
 
 export default function Hero() {
@@ -91,14 +92,14 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex items-center justify-center md:justify-start gap-2 md:gap-4 mt-0 md:mt-8 mb-2 md:mb-4 w-full md:ml-12 lg:ml-20"
           >
-            <img src="/jis.png" alt="JIS College" className="w-8 h-8 md:w-16 md:h-16 rounded-full object-cover shadow-[2px_2px_0_0_#1a1a1a] border-2 border-black bg-white" />
+            <Image src="/jis.png" alt="JIS College" width={64} height={64} className="w-8 h-8 md:w-16 md:h-16 rounded-full object-cover shadow-[2px_2px_0_0_#1a1a1a] border-2 border-black bg-white" />
             <span className="font-display font-black text-sm md:text-2xl text-black">×</span>
-            <img src="/codingclub.png" alt="Coding Club" className="w-8 h-8 md:w-16 md:h-16 rounded-full object-cover shadow-[2px_2px_0_0_#1a1a1a] border-2 border-black bg-black" />
+            <Image src="/codingclub.png" alt="Coding Club" width={64} height={64} className="w-8 h-8 md:w-16 md:h-16 rounded-full object-cover shadow-[2px_2px_0_0_#1a1a1a] border-2 border-black bg-black" />
             <span className="font-display font-black text-sm md:text-2xl text-black">×</span>
             <div className="flex flex-col items-center">
               <span className="font-sans font-bold text-[5px] md:text-[8px] uppercase tracking-widest text-gray-500 mb-0.5 md:mb-0.5">Powered By</span>
               <a href="https://rabbitt.ai/" target="_blank" rel="noopener noreferrer" className="inline-block hover:scale-105 transition-transform">
-                <img src="/rabbit.svg" alt="Rabbit Sponsor" className="h-6 md:h-14 w-auto object-contain shadow-[2px_2px_0_0_#1a1a1a] border-[1px] md:border-2 border-black rounded-md md:rounded-lg" />
+                <Image src="/rabbit.svg" alt="Rabbit Sponsor" width={160} height={56} className="h-6 md:h-14 w-auto object-contain shadow-[2px_2px_0_0_#1a1a1a] border-[1px] md:border-2 border-black rounded-md md:rounded-lg" />
               </a>
             </div>
           </motion.div>
@@ -108,10 +109,13 @@ export default function Hero() {
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
           >
-            <img 
+            <Image 
               src="/logo.png" 
               alt="CRAZY BUILD"
               draggable={false}
+              priority
+              width={500}
+              height={500}
               onContextMenu={(e) => e.preventDefault()}
               className="w-auto h-auto max-h-[30vh] md:max-h-none md:w-full max-w-[500px] object-contain mix-blend-multiply select-none pointer-events-none transform md:-translate-y-10"
             />

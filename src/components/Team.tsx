@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const teamMembers = [
   { name: "Piyush Mondal", role: "President", img: "/piyush.jpg", linkedin: "https://www.linkedin.com/in/piyush-mondal-a6588a277/" },
@@ -25,10 +26,12 @@ const TeamCard = ({ member, delay }: { member: any, delay: number }) => (
     className="w-full aspect-square bg-gray-200 border-2 md:border-[3px] border-black shadow-[3px_3px_0_0_#1a1a1a] md:shadow-[4px_4px_0_0_#1a1a1a] hover:shadow-[4px_4px_0_0_#FF4D00] md:hover:shadow-[6px_6px_0_0_#FF4D00] transition-all relative group overflow-hidden cursor-pointer"
   >
     {/* Full-bleed Photo */}
-    <img 
+    <Image 
       src={member.img} 
       alt={member.name} 
-      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+      fill
+      sizes="(max-width: 768px) 33vw, 20vw"
+      className="object-cover transition-transform duration-500 group-hover:scale-110" 
     />
 
     {/* Dark Gradient Overlay for Text Readability */}
