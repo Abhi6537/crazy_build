@@ -4,16 +4,16 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const teamMembers = [
-  { name: "Piyush Mondal", role: "President", img: "/piyush.jpg", linkedin: "https://www.linkedin.com/in/piyush-mondal-a6588a277/" },
-  { name: "Dhrubojyoti Saha", role: "Vice President", img: "/dhrubo.png", linkedin: "https://www.linkedin.com/in/dhrubojyoti-saha-420120327/" },
-  { name: "Kaustav Chakraborty", role: "Secretary", img: "/kaustav.png", linkedin: "https://www.linkedin.com/in/kaustav-chakraborty-2009292a9/" },
-  { name: "Akash Nath", role: "Secretary", img: "/akash.png", linkedin: "https://www.linkedin.com/in/akash-nath29/" },
-  { name: "Rohit Debnath", role: "Coordinator", img: "/rohit.png", linkedin: "https://www.linkedin.com/in/rohit-debnath/" },
-  { name: "Abhinabha Biswas", role: "Coordinator", img: "/avianaba.png", linkedin: "https://www.linkedin.com/in/abhinaba-biswas" },
-  { name: "Abhinandan Ghosh", role: "Fund Managing", img: "/abhi.jpg", linkedin: "https://www.linkedin.com/in/abhinandan-ghosh-jis/" },
-  { name: "Piuli Biswas", role: "Outreach Marketing", img: "/piuli.png", linkedin: "https://www.linkedin.com/in/piuli-biswas" },
-  { name: "Swapna Pal Chowdhury", role: "UI Design Head", img: "/swapna.png", linkedin: "https://www.linkedin.com/in/swapna-pal-chowdhury-b5097732a/" },
-  { name: "Anwesha Das", role: "UI/UX Designer", img: "/anwesha.jpeg", linkedin: "https://www.linkedin.com/in/anwesha-das-0a8361330/" }
+  { name: "Piyush Mondal", role: "", img: "/piyush.jpg", linkedin: "https://www.linkedin.com/in/piyush-mondal-a6588a277/" },
+  { name: "Dhrubojyoti Saha", role: "", img: "/dhrubo.png", linkedin: "https://www.linkedin.com/in/dhrubojyoti-saha-420120327/" },
+  { name: "Kaustav Chakraborty", role: "", img: "/kaustav.png", linkedin: "https://www.linkedin.com/in/kaustav-chakraborty-2009292a9/" },
+  { name: "Akash Nath", role: "", img: "/akash.png", linkedin: "https://www.linkedin.com/in/akash-nath29/" },
+  { name: "Rohit Debnath", role: "", img: "/rohit.png", linkedin: "https://www.linkedin.com/in/rohit-debnath/" },
+  { name: "Abhinabha Biswas", role: "", img: "/avianaba.png", linkedin: "https://www.linkedin.com/in/abhinaba-biswas" },
+  { name: "Abhinandan Ghosh", role: "", img: "/abhi.jpg", linkedin: "https://www.linkedin.com/in/abhinandan-ghosh-jis/" },
+  { name: "Piuli Biswas", role: "", img: "/piuli.png", linkedin: "https://www.linkedin.com/in/piuli-biswas" },
+  { name: "Swapna Pal Chowdhury", role: "", img: "/swapna.png", linkedin: "https://www.linkedin.com/in/swapna-pal-chowdhury-b5097732a/" },
+  { name: "Anwesha Das", role: "", img: "/anwesha.jpeg", linkedin: "https://www.linkedin.com/in/anwesha-das-0a8361330/" }
 ];
 
 const TeamCard = ({ member, delay }: { member: any, delay: number }) => (
