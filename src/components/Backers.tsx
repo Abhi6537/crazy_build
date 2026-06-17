@@ -8,16 +8,10 @@ export default function Backers() {
   
   const sponsors = [
     { id: 1, isRedacted: false, name: "Corsair", logo: "/corsair-logo.webp", link: "https://corsair.dev/" },
-    { id: 2, isRedacted: true, name: "Revealing Soon", logo: "", link: "#" },
-    { id: 3, isRedacted: true, name: "Revealing Soon", logo: "", link: "#" },
-    { id: 4, isRedacted: true, name: "", logo: "", link: "#" },
   ];
 
   const partners = [
     { id: 1, isRedacted: false, name: "DevDotCom", logo: "/devdotcom_logo.jpg", link: "#" },
-    { id: 2, isRedacted: true, name: "Revealing Soon", logo: "", link: "#" },
-    { id: 3, isRedacted: true, name: "Revealing Soon", logo: "", link: "#" },
-    { id: 4, isRedacted: true, name: "", logo: "", link: "#" },
   ];
 
   return (
@@ -63,14 +57,14 @@ export default function Backers() {
             {/* Sponsors Row */}
             <div className="mb-6">
               <h3 className="font-mono text-base md:text-xl font-bold uppercase mb-8 text-center border-b-4 border-black inline-block pb-1.5">Sponsors</h3>
-              <div className="flex flex-wrap justify-start gap-4 md:gap-8 w-full relative z-10">
+              <div className="flex flex-wrap items-center justify-start gap-4 md:gap-8 w-full relative z-10">
                 {sponsors.map((item) => (
                   <a 
                     key={item.id} 
                     href={item.link} 
                     target={item.isRedacted ? "_self" : "_blank"} 
                     rel="noopener noreferrer"
-                    className={`flex flex-col items-start justify-center group transition-all w-20 md:w-32 ${item.isRedacted ? 'cursor-default' : 'cursor-pointer'}`}
+                    className={`flex flex-col items-center justify-center group transition-all w-20 md:w-32 ${item.isRedacted ? 'cursor-default' : 'cursor-pointer'}`}
                     onClick={(e) => item.isRedacted && e.preventDefault()}
                   >
                     <div className="relative w-16 h-16 md:w-24 md:h-24 flex items-center justify-center mb-2 transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-105">
@@ -84,25 +78,40 @@ export default function Backers() {
                         <span className="font-display font-black text-xl uppercase tracking-widest text-center">{item.name}</span>
                       )}
                     </div>
-                    <span className={`font-sans font-black text-[9px] md:text-xs uppercase tracking-wider text-left transition-colors ${item.isRedacted ? 'text-black/20' : 'text-gray-800 group-hover:text-[#FFB800]'}`}>
+                    <span className={`font-sans font-black text-[9px] md:text-xs uppercase tracking-wider text-center transition-colors mt-2 ${item.isRedacted ? 'text-black/20' : 'text-gray-800 group-hover:text-[#FFB800]'}`}>
                       {item.name}
                     </span>
                   </a>
                 ))}
+                <div className="flex items-center ml-2 md:ml-4">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "100%" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 2, ease: "easeInOut" }}
+                    className="overflow-hidden whitespace-nowrap font-sans font-black text-xs md:text-sm text-gray-400 uppercase tracking-widest flex items-center"
+                  >
+                    More revealing soon
+                    <motion.span 
+                      animate={{ opacity: [1, 0] }} 
+                      transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+                      className="ml-1 inline-block w-[2px] h-4 md:h-5 bg-gray-400"
+                    />
+                  </motion.div>
+                </div>
               </div>
             </div>
-
             {/* Community Partners Row */}
             <div className="mb-6">
               <h3 className="font-mono text-base md:text-xl font-bold uppercase mb-8 text-center border-b-4 border-black inline-block pb-1.5">Community Partners</h3>
-              <div className="flex flex-wrap justify-start gap-4 md:gap-8 w-full relative z-10">
+              <div className="flex flex-wrap items-center justify-start gap-4 md:gap-8 w-full relative z-10">
                 {partners.map((item) => (
                   <a 
                     key={item.id} 
                     href={item.link} 
                     target={item.isRedacted ? "_self" : "_blank"} 
                     rel="noopener noreferrer"
-                    className={`flex flex-col items-start justify-center group transition-all w-20 md:w-32 ${item.isRedacted ? 'cursor-default' : 'cursor-pointer'}`}
+                    className={`flex flex-col items-center justify-center group transition-all w-20 md:w-32 ${item.isRedacted ? 'cursor-default' : 'cursor-pointer'}`}
                     onClick={(e) => item.isRedacted && e.preventDefault()}
                   >
                     <div className="relative w-16 h-16 md:w-24 md:h-24 flex items-center justify-center mb-2 transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-105">
@@ -116,11 +125,27 @@ export default function Backers() {
                         <span className="font-display font-black text-lg uppercase tracking-widest text-center">{item.name}</span>
                       )}
                     </div>
-                    <span className={`font-sans font-black text-[9px] md:text-xs uppercase tracking-wider text-left transition-colors ${item.isRedacted ? 'text-black/20' : 'text-gray-800 group-hover:text-[#0055FF]'}`}>
+                    <span className={`font-sans font-black text-[9px] md:text-xs uppercase tracking-wider text-center transition-colors mt-2 ${item.isRedacted ? 'text-black/20' : 'text-gray-800 group-hover:text-[#0055FF]'}`}>
                       {item.name}
                     </span>
                   </a>
                 ))}
+                <div className="flex items-center ml-2 md:ml-4">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "100%" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 2, ease: "easeInOut", delay: 0.5 }}
+                    className="overflow-hidden whitespace-nowrap font-sans font-black text-xs md:text-sm text-gray-400 uppercase tracking-widest flex items-center"
+                  >
+                    More revealing soon
+                    <motion.span 
+                      animate={{ opacity: [1, 0] }} 
+                      transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+                      className="ml-1 inline-block w-[2px] h-4 md:h-5 bg-gray-400"
+                    />
+                  </motion.div>
+                </div>
               </div>
             </div>
             
