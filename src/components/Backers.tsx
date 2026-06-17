@@ -10,12 +10,14 @@ export default function Backers() {
     { id: 1, isRedacted: false, name: "Corsair", logo: "/corsair-logo.webp", link: "https://corsair.dev/" },
     { id: 2, isRedacted: true, name: "Revealing Soon", logo: "", link: "#" },
     { id: 3, isRedacted: true, name: "Revealing Soon", logo: "", link: "#" },
+    { id: 4, isRedacted: true, name: "", logo: "", link: "#" },
   ];
 
   const partners = [
     { id: 1, isRedacted: false, name: "DevDotCom", logo: "/devdotcom_logo.jpg", link: "#" },
     { id: 2, isRedacted: true, name: "Revealing Soon", logo: "", link: "#" },
     { id: 3, isRedacted: true, name: "Revealing Soon", logo: "", link: "#" },
+    { id: 4, isRedacted: true, name: "", logo: "", link: "#" },
   ];
 
   return (
@@ -59,22 +61,22 @@ export default function Backers() {
             </div>
 
             {/* Sponsors Row */}
-            <div className="mb-12">
+            <div className="mb-6">
               <h3 className="font-mono text-base md:text-xl font-bold uppercase mb-8 text-center border-b-4 border-black inline-block pb-1.5">Sponsors</h3>
-              <div className="flex flex-wrap justify-center gap-8 md:gap-16 w-full relative z-10">
+              <div className="flex flex-wrap justify-start gap-4 md:gap-8 w-full relative z-10">
                 {sponsors.map((item) => (
                   <a 
                     key={item.id} 
                     href={item.link} 
                     target={item.isRedacted ? "_self" : "_blank"} 
                     rel="noopener noreferrer"
-                    className={`flex flex-col items-center justify-center group transition-all w-24 md:w-40 ${item.isRedacted ? 'cursor-default' : 'cursor-pointer'}`}
+                    className={`flex flex-col items-start justify-center group transition-all w-20 md:w-32 ${item.isRedacted ? 'cursor-default' : 'cursor-pointer'}`}
                     onClick={(e) => item.isRedacted && e.preventDefault()}
                   >
-                    <div className="relative w-20 h-20 md:w-32 md:h-32 flex items-center justify-center mb-3 transition-transform duration-300 group-hover:-translate-y-2 group-hover:scale-105">
+                    <div className="relative w-16 h-16 md:w-24 md:h-24 flex items-center justify-center mb-2 transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-105">
                       {item.isRedacted ? (
-                        <div className="flex flex-col items-center justify-center text-black/10 group-hover:text-black/30 transition-colors w-full h-full">
-                          <Lock className="w-10 h-10 md:w-16 md:h-16" />
+                        <div className="flex items-center justify-center w-full h-full bg-gray-200 opacity-20">
+                          <span className="text-xs text-gray-600">Revealing Soon</span>
                         </div>
                       ) : item.logo ? (
                         <Image src={item.logo} alt={item.name} fill className="object-contain transition-all duration-500" />
@@ -82,7 +84,7 @@ export default function Backers() {
                         <span className="font-display font-black text-xl uppercase tracking-widest text-center">{item.name}</span>
                       )}
                     </div>
-                    <span className={`font-sans font-black text-[10px] md:text-sm uppercase tracking-wider text-center transition-colors ${item.isRedacted ? 'text-black/20' : 'text-gray-800 group-hover:text-[#FFB800]'}`}>
+                    <span className={`font-sans font-black text-[9px] md:text-xs uppercase tracking-wider text-left transition-colors ${item.isRedacted ? 'text-black/20' : 'text-gray-800 group-hover:text-[#FFB800]'}`}>
                       {item.name}
                     </span>
                   </a>
@@ -91,22 +93,22 @@ export default function Backers() {
             </div>
 
             {/* Community Partners Row */}
-            <div>
+            <div className="mb-6">
               <h3 className="font-mono text-base md:text-xl font-bold uppercase mb-8 text-center border-b-4 border-black inline-block pb-1.5">Community Partners</h3>
-              <div className="flex flex-wrap justify-center gap-8 md:gap-16 w-full relative z-10">
+              <div className="flex flex-wrap justify-start gap-4 md:gap-8 w-full relative z-10">
                 {partners.map((item) => (
                   <a 
                     key={item.id} 
                     href={item.link} 
                     target={item.isRedacted ? "_self" : "_blank"} 
                     rel="noopener noreferrer"
-                    className={`flex flex-col items-center justify-center group transition-all w-24 md:w-32 ${item.isRedacted ? 'cursor-default' : 'cursor-pointer'}`}
+                    className={`flex flex-col items-start justify-center group transition-all w-20 md:w-32 ${item.isRedacted ? 'cursor-default' : 'cursor-pointer'}`}
                     onClick={(e) => item.isRedacted && e.preventDefault()}
                   >
-                    <div className="relative w-16 h-16 md:w-24 md:h-24 flex items-center justify-center mb-3 transition-transform duration-300 group-hover:-translate-y-2 group-hover:scale-105">
+                    <div className="relative w-16 h-16 md:w-24 md:h-24 flex items-center justify-center mb-2 transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-105">
                       {item.isRedacted ? (
-                        <div className="flex flex-col items-center justify-center text-black/10 group-hover:text-black/30 transition-colors w-full h-full">
-                          <Lock className="w-8 h-8 md:w-12 md:h-12" />
+                        <div className="flex items-center justify-center w-full h-full bg-gray-200 opacity-20">
+                          <span className="text-xs text-gray-600">Revealing Soon</span>
                         </div>
                       ) : item.logo ? (
                         <Image src={item.logo} alt={item.name} fill className="object-contain transition-all duration-500" />
@@ -114,7 +116,7 @@ export default function Backers() {
                         <span className="font-display font-black text-lg uppercase tracking-widest text-center">{item.name}</span>
                       )}
                     </div>
-                    <span className={`font-sans font-black text-[9px] md:text-xs uppercase tracking-wider text-center transition-colors ${item.isRedacted ? 'text-black/20' : 'text-gray-800 group-hover:text-[#0055FF]'}`}>
+                    <span className={`font-sans font-black text-[9px] md:text-xs uppercase tracking-wider text-left transition-colors ${item.isRedacted ? 'text-black/20' : 'text-gray-800 group-hover:text-[#0055FF]'}`}>
                       {item.name}
                     </span>
                   </a>
