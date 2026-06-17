@@ -11,7 +11,7 @@ export default function Backers() {
   ];
 
   const partners = [
-    { id: 1, isRedacted: false, name: "DevDotCom", logo: "/devdotcom_logo.jpg", link: "#" },
+    { id: 1, isRedacted: false, name: "DevDotCom", logo: "/devdotcom_logo.jpg", link: "https://www.devdotcom.in/" },
   ];
 
   return (
