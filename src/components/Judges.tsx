@@ -36,6 +36,13 @@ export default function Judges() {
     },
     { 
       id: 5, 
+      name: "Ayush Dhua", 
+      role: "SDE-I @AT&T", 
+      img: "/ayush.jpeg",
+      linkedin: "https://www.linkedin.com/in/ayush-dhua/"
+    },
+    { 
+      id: 6, 
       name: "Revealing Soon", 
       role: "........", 
       img: "",
