@@ -13,7 +13,8 @@ const teamMembers = [
   { name: "Abhinandan Ghosh", role: "", img: "/abhi.jpg", linkedin: "https://www.linkedin.com/in/abhinandan-ghosh-jis/" },
   { name: "Piuli Biswas", role: "", img: "/piuli.png", linkedin: "https://www.linkedin.com/in/piuli-biswas" },
   { name: "Swapna Pal Chowdhury", role: "", img: "/swapna.png", linkedin: "https://www.linkedin.com/in/swapna-pal-chowdhury-b5097732a/" },
-  { name: "Anwesha Das", role: "", img: "/anwesha.jpeg", linkedin: "https://www.linkedin.com/in/anwesha-das-0a8361330/" }
+  { name: "Anwesha Das", role: "", img: "/anwesha.jpeg", linkedin: "https://www.linkedin.com/in/anwesha-das-0a8361330/" },
+  { name: "Rajarshi Mandal", role: "", img: "/Rajarshi.jpeg", linkedin: "https://www.linkedin.com/in/rajarshi-mondal-97742432b/" }
 ];
 
 const TeamCard = ({ member, delay }: { member: any, delay: number }) => (
