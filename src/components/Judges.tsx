@@ -37,7 +37,7 @@ export default function Judges() {
     { 
       id: 5, 
       name: "Ayush Dhua", 
-      role: "SDE-I @AT&T", 
+      role: "SDE-I @AT&T • Mobile Application Developer", 
       img: "/ayush.jpeg",
       linkedin: "https://www.linkedin.com/in/ayush-dhua/"
     },
