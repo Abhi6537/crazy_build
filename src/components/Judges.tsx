@@ -29,6 +29,13 @@ export default function Judges() {
     },
     { 
       id: 4, 
+      name: "Apabrita Sarkar", 
+      role: "Software analyst @Capgemini", 
+      img: "/apabrita.jpeg",
+      linkedin: "https://www.linkedin.com/in/apabritasarkar/"
+    },
+    { 
+      id: 5, 
       name: "Revealing Soon", 
       role: "........", 
       img: "",
