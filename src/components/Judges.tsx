@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-
 import Image from "next/image";
 
 export default function Judges() {
@@ -27,6 +26,13 @@ export default function Judges() {
       role: "Co-Founder @Studio1", 
       img: "/arindam.png",
       linkedin: "https://www.linkedin.com/in/arindam2004/"
+    },
+    { 
+      id: 4, 
+      name: "Revealing Soon", 
+      role: "........", 
+      img: "",
+      linkedin: ""
     }
   ];
 
@@ -64,8 +70,8 @@ export default function Judges() {
               </svg>
             </div>
 
-            {/* Suspect Lineup Layout -> Real Judges */}
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 w-full relative z-10">
+            {/* Trading Card Lineup */}
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 w-full relative z-10">
               {judges.map((judge, idx) => (
                 <motion.div
                   key={judge.id}
@@ -74,49 +80,53 @@ export default function Judges() {
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1, type: "spring", stiffness: 100 }}
                   whileHover={{ scale: 1.05, y: -5, zIndex: 20 }}
-                  className="w-[45%] sm:w-[200px] md:w-[240px] bg-white p-3 md:p-4 border-[3px] border-black shadow-[4px_4px_0_0_#1a1a1a] hover:shadow-[6px_6px_0_0_#FF4D00] flex flex-col items-center relative group transition-all duration-300"
+                  className="w-[45%] sm:w-[180px] md:w-[200px] lg:w-[220px] bg-[#f4f4f0] p-2 md:p-3 border-[3px] border-black shadow-[4px_4px_0_0_#1a1a1a] hover:shadow-[8px_8px_0_0_#FF4D00] flex flex-col items-center relative group transition-all duration-300"
                 >
-                  {/* ID Badge Clip / Hole */}
-                  <div className="w-8 md:w-10 h-2 md:h-2.5 bg-gray-200 border border-gray-300 rounded-full mb-3 shadow-inner"></div>
+                  {/* Visible LinkedIn Icon */}
+                  {judge.linkedin && (
+                    <a 
+                      href={judge.linkedin} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="absolute top-1 right-1 bg-white border-2 border-black p-1 z-20 hover:bg-[#0077b5] hover:text-white transition-colors shadow-[2px_2px_0_0_#1a1a1a] group-hover:-translate-y-1 group-hover:translate-x-1"
+                    >
+                      <svg className="w-3.5 h-3.5 md:w-4 md:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
+                      </svg>
+                    </a>
+                  )}
 
-                  {/* Real Image Box */}
-                  <div className="w-full aspect-square border-2 border-black bg-gray-100 relative overflow-hidden flex items-end justify-center mb-4 shadow-[2px_2px_0_0_#1a1a1a]">
-                    <Image 
-                      src={judge.img} 
-                      alt={judge.name} 
-                      fill
-                      sizes="(max-width: 768px) 45vw, 240px"
-                      className="object-cover transition-transform duration-500 group-hover:scale-110" 
-                    />
-                    
-                    {/* Hover Overlay for LinkedIn */}
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <a href={judge.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 bg-[#FFB800] border-2 border-black hover:bg-[#FF4D00] hover:text-white transition-colors transform hover:scale-110">
-                        <svg className="w-6 h-6 md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                          <rect x="2" y="9" width="4" height="12"></rect>
-                          <circle cx="4" cy="4" r="2"></circle>
-                        </svg>
-                      </a>
-                    </div>
+                  {/* Real Image Box - aspect-[4/5] and object-top prevents cropping */}
+                  <div className="w-full aspect-[4/5] border-2 md:border-[3px] border-black bg-white relative overflow-hidden flex items-center justify-center mb-3 shadow-[2px_2px_0_0_#1a1a1a]">
+                    {judge.img ? (
+                      <Image 
+                        src={judge.img} 
+                        alt={judge.name} 
+                        fill
+                        sizes="(max-width: 768px) 45vw, 220px"
+                        className="object-cover object-top transition-transform duration-500 group-hover:scale-110" 
+                      />
+                    ) : (
+                      // Silhouette placeholder for "Revealing Soon"
+                      <div className="w-full h-full flex flex-col items-center justify-center bg-gray-200">
+                        <span className="font-display font-black text-4xl md:text-6xl text-black/20">?</span>
+                      </div>
+                    )}
                   </div>
 
-                  {/* ID Details */}
-                  <div className="w-full flex flex-col gap-2 font-mono text-black text-center">
-                    <h3 className="font-display font-black text-xs md:text-base uppercase tracking-wider text-[#0A1128] leading-tight">
+                  {/* Details Block */}
+                  <div className="w-full flex flex-col items-center text-center mt-auto">
+                    <h3 className="font-display font-black text-[10px] md:text-[13px] uppercase tracking-widest text-[#0A1128] leading-tight mb-1.5 border-b-2 border-black pb-1 w-full">
                       {judge.name}
                     </h3>
-                    <div className="bg-[#FFB800] text-black px-2 py-1 border border-black inline-block self-center group-hover:bg-[#FF4D00] group-hover:text-white transition-colors">
-                      <span className="font-sans text-[7px] md:text-[10px] font-bold uppercase tracking-widest leading-none block">
+                    <div className="bg-[#FFB800] text-black px-1.5 py-1 border-2 border-black w-full shadow-[2px_2px_0_0_#1a1a1a] group-hover:bg-[#FF4D00] group-hover:text-white transition-colors duration-300">
+                      <span className="font-sans text-[6px] md:text-[8px] font-bold uppercase tracking-wider leading-none block">
                         {judge.role}
                       </span>
                     </div>
                   </div>
-                  
-                  {/* Corner Screws / Tacks */}
-                  <div className="absolute top-2 left-2 w-2 h-2 bg-gray-300 rounded-full border border-black shadow-inner"></div>
-                  <div className="absolute top-2 right-2 w-2 h-2 bg-gray-300 rounded-full border border-black shadow-inner"></div>
-
                 </motion.div>
               ))}
             </div>
