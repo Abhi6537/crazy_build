@@ -6,7 +6,7 @@ import Image from "next/image";
 const teamMembers = [
   { name: "Piyush Mondal", role: "", img: "/piyush.jpg", linkedin: "https://www.linkedin.com/in/piyush-mondal-a6588a277/" },
   { name: "Dhrubojyoti Saha", role: "", img: "/dhrubo.png", linkedin: "https://www.linkedin.com/in/dhrubojyoti-saha-420120327/" },
-  { name: "Kaustav Chakraborty", role: "", img: "/kaustav.png", linkedin: "https://www.linkedin.com/in/kaustav-chakraborty-2009292a9/" },
+  { name: "Kaustav Chakraborty", role: "", img: "/kaustav.jpeg", linkedin: "https://www.linkedin.com/in/kaustav-chakraborty-2009292a9/" },
   { name: "Akash Nath", role: "", img: "/akash.png", linkedin: "https://www.linkedin.com/in/akash-nath29/" },
   { name: "Rohit Debnath", role: "", img: "/rohit.png", linkedin: "https://www.linkedin.com/in/rohit-debnath/" },
   { name: "Abhinabha Biswas", role: "", img: "/avianaba.png", linkedin: "https://www.linkedin.com/in/abhinaba-biswas" },
