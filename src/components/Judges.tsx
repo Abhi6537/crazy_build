@@ -18,7 +18,7 @@ export default function Judges() {
       id: 2, 
       name: "Devesh Tulshyan", 
       role: "FullStack Engineer @TCS Prime", 
-      img: "/devesh.png",
+      img: "/devesh.jpeg",
       linkedin: "https://www.linkedin.com/in/devesh-tulshyan/"
     },
     { 
