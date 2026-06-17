@@ -2,14 +2,32 @@
 
 import { motion } from "framer-motion";
 
+import Image from "next/image";
+
 export default function Judges() {
   
-  // Future proof: when judges are announced, replace these empty objects with actual data.
-  const judgeSlots = [
-    { id: 1 },
-    { id: 2 },
-    { id: 3 },
-    { id: 4 },
+  const judges = [
+    { 
+      id: 1, 
+      name: "Avik Agarwala", 
+      role: "AI Engineer @TCS", 
+      img: "/avik.png",
+      linkedin: "https://www.linkedin.com/in/avikagarwala/"
+    },
+    { 
+      id: 2, 
+      name: "Devesh Tulshyan", 
+      role: "FullStack Engineer @TCS Prime", 
+      img: "/devesh.png",
+      linkedin: "https://www.linkedin.com/in/devesh-tulshyan/"
+    },
+    { 
+      id: 3, 
+      name: "Arindam Majumder", 
+      role: "Co-Founder @Studio1", 
+      img: "/arindam.png",
+      linkedin: "https://www.linkedin.com/in/arindam2004/"
+    }
   ];
 
   return (
@@ -30,14 +48,14 @@ export default function Judges() {
           <div className="absolute inset-0 border-4 border-black transform translate-x-2 translate-y-2 bg-[#FFB800]/10 pointer-events-none"></div>
           <div className="absolute inset-0 border-4 border-black transform -rotate-[0.5deg] pointer-events-none"></div>
 
-          <div className="relative border-4 border-black p-6 md:p-12 shadow-[8px_8px_0_0_#1a1a1a] z-10 flex flex-col items-center">
+          <div className="relative border-4 border-black p-6 md:p-12 shadow-[8px_8px_0_0_#1a1a1a] z-10 flex flex-col items-center bg-white/50 backdrop-blur-sm">
             
             {/* Tape Doodle */}
             <div className="absolute -top-4 right-1/4 transform w-24 h-8 bg-[#FF4D00]/80 rotate-2 mix-blend-multiply border border-black/10 z-20"></div>
 
             {/* Section Header */}
             <div className="flex flex-col items-center mb-10 w-full border-b-4 border-black pb-6 relative">
-              <h2 className="font-display font-black text-xl md:text-5xl uppercase tracking-widest text-[#0A1128]  relative z-10">
+              <h2 className="font-display font-black text-xl md:text-5xl uppercase tracking-widest text-[#0A1128] relative z-10">
                 The Judges Panel
               </h2>
               {/* Decorative Scribble */}
@@ -46,62 +64,53 @@ export default function Judges() {
               </svg>
             </div>
 
-            {/* Suspect Lineup Layout */}
+            {/* Suspect Lineup Layout -> Real Judges */}
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 w-full relative z-10">
-              {judgeSlots.map((slot, idx) => (
+              {judges.map((judge, idx) => (
                 <motion.div
-                  key={slot.id}
+                  key={judge.id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1, type: "spring", stiffness: 100 }}
                   whileHover={{ scale: 1.05, y: -5, zIndex: 20 }}
-                  className="w-[45%] sm:w-[180px] md:w-[200px] bg-white p-3 md:p-4 border-[3px] border-black shadow-[4px_4px_0_0_#1a1a1a] flex flex-col items-center relative group transition-transform duration-300"
+                  className="w-[45%] sm:w-[200px] md:w-[240px] bg-white p-3 md:p-4 border-[3px] border-black shadow-[4px_4px_0_0_#1a1a1a] hover:shadow-[6px_6px_0_0_#FF4D00] flex flex-col items-center relative group transition-all duration-300"
                 >
                   {/* ID Badge Clip / Hole */}
                   <div className="w-8 md:w-10 h-2 md:h-2.5 bg-gray-200 border border-gray-300 rounded-full mb-3 shadow-inner"></div>
 
-                  {/* Silhouette Picture Box - NOW SQUARE */}
-                  <div className="w-full aspect-square border-2 border-black bg-gray-100 relative overflow-hidden flex items-end justify-center mb-4">
+                  {/* Real Image Box */}
+                  <div className="w-full aspect-square border-2 border-black bg-gray-100 relative overflow-hidden flex items-end justify-center mb-4 shadow-[2px_2px_0_0_#1a1a1a]">
+                    <Image 
+                      src={judge.img} 
+                      alt={judge.name} 
+                      fill
+                      sizes="(max-width: 768px) 45vw, 240px"
+                      className="object-cover transition-transform duration-500 group-hover:scale-110" 
+                    />
                     
-                    {/* Sketchy Silhouette SVG */}
-                    <svg className="w-[85%] h-[95%] text-black/40" viewBox="0 0 100 120" fill="currentColor">
-                      {/* Head */}
-                      <path d="M50 50 C35 50 25 35 25 20 C25 5 35 -5 50 -5 C65 -5 75 5 75 20 C75 35 65 50 50 50 Z" />
-                      {/* Body/Shoulders */}
-                      <path d="M10 120 C10 80 25 60 50 60 C75 60 90 80 90 120 Z" />
-                    </svg>
-
-                    {/* Animated Scanning Laser */}
-                    <motion.div 
-                      animate={{ y: ["-10%", "300%", "-10%"] }}
-                      transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
-                      className="absolute top-0 left-0 w-full h-4 bg-gradient-to-b from-transparent via-[#0055FF]/30 to-[#0055FF]/60 border-b-2 border-[#0055FF] z-10"
-                    ></motion.div>
+                    {/* Hover Overlay for LinkedIn */}
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <a href={judge.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 bg-[#FFB800] border-2 border-black hover:bg-[#FF4D00] hover:text-white transition-colors transform hover:scale-110">
+                        <svg className="w-6 h-6 md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                          <rect x="2" y="9" width="4" height="12"></rect>
+                          <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                      </a>
+                    </div>
                   </div>
 
-                  {/* ID Details (Redacted/Revealing Soon) */}
-                  <div className="w-full flex flex-col gap-2 font-mono text-black relative">
-                    
-                    {/* Field: Name */}
-                    <div className="flex flex-col gap-0.5 relative">
-                      <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-gray-400">Name</span>
-                      {/* Thick Marker Stroke Effect */}
-                      <div className="relative h-5 md:h-6 w-full bg-black flex items-center justify-center transform -skew-x-6 hover:skew-x-0 transition-transform">
-                        <span className="text-white font-bold tracking-widest uppercase text-[9px] md:text-[10px] whitespace-nowrap">Revealing Soon</span>
-                        {/* Scribble texture over the marker */}
-                        <div className="absolute inset-0 opacity-20 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSJ0cmFuc3BhcmVudCIvPgo8cGF0aCBkPSJNMCAwTDIgMloiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxIi8+Cjwvc3ZnPg==')]"></div>
-                      </div>
+                  {/* ID Details */}
+                  <div className="w-full flex flex-col gap-2 font-mono text-black text-center">
+                    <h3 className="font-display font-black text-xs md:text-base uppercase tracking-wider text-[#0A1128] leading-tight">
+                      {judge.name}
+                    </h3>
+                    <div className="bg-[#FFB800] text-black px-2 py-1 border border-black inline-block self-center group-hover:bg-[#FF4D00] group-hover:text-white transition-colors">
+                      <span className="font-sans text-[7px] md:text-[10px] font-bold uppercase tracking-widest leading-none block">
+                        {judge.role}
+                      </span>
                     </div>
-
-                    {/* Field: Company/Role */}
-                    <div className="flex flex-col gap-0.5 relative mt-1">
-                      <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-wider text-gray-400">Clearance</span>
-                      <div className="relative h-4 w-2/3 bg-black flex items-center justify-center transform skew-x-3">
-                        <span className="text-[#FFB800] font-bold tracking-widest uppercase text-[8px] md:text-[9px]">Classified</span>
-                      </div>
-                    </div>
-
                   </div>
                   
                   {/* Corner Screws / Tacks */}
