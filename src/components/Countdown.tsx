@@ -59,7 +59,7 @@ export default function Countdown() {
               Incoming Chaos
             </div>
             <span className="font-sans font-bold text-[7px] sm:text-[9px] md:text-xs text-[#0A1128] bg-gray-100 px-1.5 py-0.5 border border-black shadow-[1px_1px_0_0_#1a1a1a]">
-              Expected: July 8, 2026
+              July 8, 2026
             </span>
           </div>
           
