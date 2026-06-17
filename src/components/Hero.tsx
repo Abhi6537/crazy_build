@@ -161,12 +161,14 @@ export default function Hero() {
             transition={{ delay: 0.8, duration: 0.5 }}
             className="mt-2 flex flex-col sm:flex-row gap-4 md:gap-8 w-full md:w-auto px-4 md:px-0"
           >
-            <button 
-              onClick={() => setShowPopup(true)}
-              className="w-full sm:w-[350px] md:w-[400px] px-4 md:px-8 py-3 md:py-4 bg-[#FF4D00] text-white font-display font-bold text-base md:text-lg uppercase tracking-wider hover:scale-105 transition-all shadow-[4px_4px_0_0_#1a1a1a] md:shadow-[6px_6px_0_0_#1a1a1a] border-2 border-black z-10"
+            <a 
+              href="https://forms.gle/vBsijD1RvfkYi2Fm9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-[350px] md:w-[400px] px-4 md:px-8 py-3 md:py-4 bg-[#FF4D00] text-white font-display font-bold text-base md:text-lg uppercase tracking-wider hover:scale-105 transition-all shadow-[4px_4px_0_0_#1a1a1a] md:shadow-[6px_6px_0_0_#1a1a1a] border-2 border-black z-10 text-center block"
             >
               Register Now
-            </button>
+            </a>
           </motion.div>
         </div>
       </div>
