@@ -44,7 +44,7 @@ export default function Judges() {
     { 
       id: 6, 
       name: "Md Asif", 
-      role: "5x Hackathon Winner . Co-Lead Organizer @InnoFusion", 
+      role: "5x Hackathon Winner . SSE @American Megatrends International", 
       img: "/asif.jpeg",
       linkedin: "https://www.linkedin.com/in/mdasif2003/"
     },
