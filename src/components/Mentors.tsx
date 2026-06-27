@@ -16,7 +16,7 @@ export default function Mentors() {
     { 
       id: 2, 
       name: "Milind Kundu", 
-      role: "AI Engineer @SKR . Ex-Intern @Tata Steelz", 
+      role: "AI Engineer @SKR . Ex-Intern @Tata Steel", 
       img: "/milid kundu.jpeg",
       linkedin: "https://www.linkedin.com/in/milind-kundu-348017286/"
     },
