@@ -32,6 +32,7 @@ export default function Header() {
     { name: "Themes", href: "#themes" },
     { name: "Sponsors", href: "#backers" },
     { name: "Judges", href: "#judges" },
+    { name: "Mentors", href: "#mentors" },
     { name: "Team", href: "#team" },
   ];
 
