@@ -29,12 +29,13 @@ export default function Mentors() {
     },
     { 
       id: 4, 
-      name: "Revealing Soon", 
-      role: "........", 
-      img: "",
-      linkedin: ""
+      name: "Somyadip Ghosh", 
+      role: "Intern @Quantum Tiger", 
+      img: "/soumydip.jpg",
+      linkedin: "https://www.linkedin.com/in/somyadipghosh/"
     }
   ];
+
 
   return (
     <section id="mentors" className="py-12 md:py-16 relative overflow-hidden bg-white">
