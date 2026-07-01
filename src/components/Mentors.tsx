@@ -55,15 +55,9 @@ export default function Mentors() {
       img: "/paramita.jpeg",
       linkedin: "https://www.linkedin.com/in/paramita-das-14116b2b4/"
     },
+    
     {
       id: 8, 
-      name: "Priyanshu Ghosh", 
-      role: "AI INTERN @MOHUR", 
-      img: "/priyanshu.jpeg",
-      linkedin: "https://www.linkedin.com/in/priyanshugh/"
-    },
-    {
-      id: 9, 
       name: "Arkaprava Das", 
       role: "Backend Engineer @Heva AI", 
       img: "/arkaprava.jpg",
