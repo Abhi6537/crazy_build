@@ -161,14 +161,15 @@ export default function Hero() {
             transition={{ delay: 0.8, duration: 0.5 }}
             className="mt-2 flex flex-col sm:flex-row gap-4 md:gap-8 w-full md:w-auto px-4 md:px-0"
           >
-            <a 
-              href="https://forms.gle/vBsijD1RvfkYi2Fm9"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                setShowPopup(true);
+              }}
               className="w-full sm:w-[350px] md:w-[400px] px-4 md:px-8 py-3 md:py-4 bg-[#FF4D00] text-white font-display font-bold text-base md:text-lg uppercase tracking-wider hover:scale-105 transition-all shadow-[4px_4px_0_0_#1a1a1a] md:shadow-[6px_6px_0_0_#1a1a1a] border-2 border-black z-10 text-center block"
             >
               Register Now
-            </a>
+            </button>
           </motion.div>
         </div>
       </div>
@@ -204,13 +205,13 @@ export default function Hero() {
 
               <div className="text-center relative z-10 pt-4">
                 <h2 className="font-display font-black text-3xl md:text-5xl uppercase tracking-widest text-[#0A1128] mb-4 leading-none">
-                  Hold Up!
+                  Too Late!
                 </h2>
-                <div className="font-sans font-bold text-lg md:text-xl mb-6 bg-white border-2 border-black p-3 transform rotate-1 inline-block shadow-[4px_4px_0_0_#1a1a1a]">
-                  Registration is Opening Soon.
+                <div className="font-sans font-bold text-lg md:text-xl mb-6 bg-white border-2 border-black p-3 transform -rotate-2 inline-block shadow-[4px_4px_0_0_#1a1a1a]">
+                  Registration is Closed.
                 </div>
                 <p className="font-sans text-sm md:text-base font-medium text-black/80 max-w-sm mx-auto">
-                  We are putting the final touches on the arena. Check back shortly to secure your team's spot in the chaos.
+                  The arena is fully packed and the chaos has already begun! We can't accept any more registrations this time. Catch you in the next sprint.
                 </p>
                 <button 
                   onClick={() => setShowPopup(false)}

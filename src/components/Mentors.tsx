@@ -33,7 +33,8 @@ export default function Mentors() {
       role: "Intern @Quantum Tiger", 
       img: "/soumydip.jpg",
       linkedin: "https://www.linkedin.com/in/somyadipghosh/"
-    }
+    },
+  
   ];
 
 

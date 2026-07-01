@@ -94,8 +94,8 @@ export default function Themes() {
               </div>
 
               <div className="mt-8 md:mt-10 flex items-center justify-center gap-2 md:gap-3 font-mono text-[10px] md:text-sm font-bold uppercase tracking-widest text-gray-500 bg-white border-2 border-black px-3 md:px-4 py-2 shadow-[2px_2px_0_0_#1a1a1a]">
-                <span className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-red-500 animate-pulse border border-black"></span>
-                <span>Do register Quickly.....</span>
+                <span className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-red-500 border border-black"></span>
+                <span>Registration is now closed</span>
               </div>
             </div>
           </div>
