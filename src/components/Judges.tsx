@@ -47,13 +47,6 @@ export default function Judges() {
       role: "5x Hackathon Winner . SSE @American Megatrends International", 
       img: "/asif.jpeg",
       linkedin: "https://www.linkedin.com/in/mdasif2003/"
-    },
-    { 
-      id: 7, 
-      name: "Revealing Soon", 
-      role: "........", 
-      img: "",
-      linkedin: ""
     }
   ];
 
