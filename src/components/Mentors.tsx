@@ -101,6 +101,21 @@ export default function Mentors() {
           </p>
         </motion.div>
 
+        {/* Mobile Swipe Indicator */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="md:hidden w-full flex justify-end px-4 mb-4 relative z-10"
+        >
+          <div className="inline-flex items-center gap-2 bg-[#FF4D00] border-2 border-black px-3 py-1 shadow-[3px_3px_0_0_#1a1a1a] transform -rotate-2 animate-pulse">
+            <span className="font-display font-bold text-xs uppercase tracking-wider text-white">Slide</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="square" strokeLinejoin="miter">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
+        </motion.div>
+
         {/* Mentors Grid / Carousel */}
         <div className="w-full flex md:grid md:grid-cols-10 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory gap-3 md:gap-x-4 lg:gap-x-5 gap-y-5 lg:gap-y-6 max-w-5xl mx-auto pb-6 md:pb-0 relative z-10 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden px-2 md:px-0">
           {mentors.map((mentor, idx) => (
