@@ -56,15 +56,7 @@ export default function Mentors() {
       linkedin: "https://www.linkedin.com/in/paramita-das-14116b2b4/"
     },
     
-    {
-      id: 8, 
-      name: "Arkaprava Das", 
-      role: "Backend Engineer @Heva AI", 
-      img: "/arkaprava.jpg",
-      linkedin: "https://www.linkedin.com/in/arkaprava-das-0524a928b/"
-    },
-
-
+  
   
   ];
 
