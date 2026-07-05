@@ -109,6 +109,16 @@ export default function Footer() {
               </div>
             </div>
 
+            {/* ADMIN HQ BUTTON */}
+            <div className="flex flex-col">
+              <a href="/admin" className="mt-2 md:mt-0 font-display font-black text-xs uppercase tracking-widest bg-[#FFB800] text-[#0A1128] border-2 border-black px-4 py-2 shadow-[2px_2px_0_0_#1a1a1a] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all flex items-center justify-center gap-2">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                Admin HQ
+              </a>
+            </div>
+
           </div>
 
         </div>

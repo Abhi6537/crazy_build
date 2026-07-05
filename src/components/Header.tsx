@@ -34,6 +34,7 @@ export default function Header() {
     { name: "Judges", href: "#judges" },
     { name: "Mentors", href: "#mentors" },
     { name: "Team", href: "#team" },
+    { name: "Project Gallery", href: "/gallery" },
   ];
 
   return (

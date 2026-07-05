@@ -166,10 +166,16 @@ export default function Hero() {
                 e.preventDefault();
                 setShowPopup(true);
               }}
-              className="w-full sm:w-[350px] md:w-[400px] px-4 md:px-8 py-3 md:py-4 bg-[#FF4D00] text-white font-display font-bold text-base md:text-lg uppercase tracking-wider hover:scale-105 transition-all shadow-[4px_4px_0_0_#1a1a1a] md:shadow-[6px_6px_0_0_#1a1a1a] border-2 border-black z-10 text-center block"
+              className="w-full sm:w-auto px-4 md:px-8 py-3 md:py-4 bg-[#FF4D00] text-white font-display font-bold text-base md:text-lg uppercase tracking-wider hover:scale-105 transition-all shadow-[4px_4px_0_0_#1a1a1a] md:shadow-[6px_6px_0_0_#1a1a1a] border-2 border-black z-10 text-center block"
             >
               Registration Closed
             </button>
+            <a 
+              href="/submit"
+              className="w-full sm:w-auto px-4 md:px-8 py-3 md:py-4 bg-[#0055FF] text-white font-display font-bold text-base md:text-lg uppercase tracking-wider hover:scale-105 transition-all shadow-[4px_4px_0_0_#1a1a1a] md:shadow-[6px_6px_0_0_#1a1a1a] border-2 border-black z-10 text-center block"
+            >
+              Submit Project →
+            </a>
           </motion.div>
         </div>
       </div>
