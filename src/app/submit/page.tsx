@@ -23,6 +23,14 @@ import Link from "next/link";
 // Deadline: July 8, 2026, 5:00 PM IST
 const DEADLINE = new Date("2026-07-08T11:30:00Z");
 
+export const PROBLEM_STATEMENTS = [
+  "PS 1: Talking Rabbitt - AI Powered Business Intelligence Dashboard",
+  "PS 2: AI-Powered Personal Brand Marketing Engine",
+  "PS 3: AI Competitor Strategy Analyzer",
+  "PS 4: Signals Harvesting Engine - Agentic AI Workflow System",
+  "PS 5: Agentic AI HRMS & Hiring Automation Platform"
+];
+
 interface TeamSession {
   id: string;
   team_name: string;
@@ -67,7 +75,10 @@ export default function SubmitPage() {
   const [viewMode, setViewMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
-  const [uploading, setUploading] = useState(false);
+  const [uploadingScreenshot, setUploadingScreenshot] = useState(false);
+  const [uploadProgressScreenshot, setUploadProgressScreenshot] = useState(0);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
+  const [uploadProgressLogo, setUploadProgressLogo] = useState(0);
   const [timeLeft, setTimeLeft] = useState("");
 
   // Auth form state
@@ -205,27 +216,59 @@ export default function SubmitPage() {
   };
 
   // Upload handler
-  const handleImageUpload = async (file: File, type: "screenshot" | "logo") => {
-    if (!session) return;
-    setUploading(true);
-    try {
+  const handleImageUpload = (file: File, type: "screenshot" | "logo"): Promise<string | null> => {
+    return new Promise((resolve) => {
+      if (!session) { resolve(null); return; }
+      
+      const setLoader = type === "screenshot" ? setUploadingScreenshot : setUploadingLogo;
+      const setProgress = type === "screenshot" ? setUploadProgressScreenshot : setUploadProgressLogo;
+      
+      setLoader(true);
+      setProgress(0);
+      
+      const xhr = new XMLHttpRequest();
       const formData = new FormData();
       formData.append("file", file);
       formData.append("teamId", session.id);
       formData.append("type", type);
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
-      const data = await res.json();
-      if (!res.ok) {
-        setMessage({ type: "error", text: data.error });
-        return null;
-      }
-      return data.url;
-    } catch {
-      setMessage({ type: "error", text: "Upload failed." });
-      return null;
-    } finally {
-      setUploading(false);
-    }
+      
+      xhr.upload.addEventListener("progress", (event) => {
+        if (event.lengthComputable) {
+          const percentCompleted = Math.round((event.loaded * 100) / event.total);
+          setProgress(percentCompleted);
+        }
+      });
+      
+      xhr.addEventListener("load", () => {
+        setLoader(false);
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            const data = JSON.parse(xhr.responseText);
+            resolve(data.url);
+          } catch (e) {
+            setMessage({ type: "error", text: "Invalid response from server" });
+            resolve(null);
+          }
+        } else {
+          try {
+            const data = JSON.parse(xhr.responseText);
+            setMessage({ type: "error", text: data.error || "Upload failed." });
+          } catch (e) {
+            setMessage({ type: "error", text: "Upload failed." });
+          }
+          resolve(null);
+        }
+      });
+      
+      xhr.addEventListener("error", () => {
+        setLoader(false);
+        setMessage({ type: "error", text: "Upload failed due to network error." });
+        resolve(null);
+      });
+      
+      xhr.open("POST", "/api/upload", true);
+      xhr.send(formData);
+    });
   };
 
   const handleScreenshotUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -385,7 +428,7 @@ export default function SubmitPage() {
                           value={teamName}
                           onChange={(e) => setTeamName(e.target.value)}
                           placeholder="Type your team name"
-                          className="w-full border-2 border-black px-3 py-2 font-sans text-sm bg-gray-50 focus:bg-white focus:outline-none focus:shadow-[3px_3px_0_0_#0055FF] transition-shadow"
+                          className="w-full border-3 border-black px-4 py-3 font-sans text-sm bg-white focus:bg-[#f4f7ff] focus:outline-none shadow-[4px_4px_0_0_#1a1a1a] focus:shadow-[4px_4px_0_0_#0055FF] focus:-translate-y-1 focus:-translate-x-1 transition-all relative z-20"
                         />
                       </div>
                       <div>
@@ -408,7 +451,7 @@ export default function SubmitPage() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter Team Lead Email"
-                      className="w-full border-2 border-black px-3 py-2 font-sans text-sm bg-gray-50 focus:bg-white focus:outline-none focus:shadow-[3px_3px_0_0_#0055FF] transition-shadow"
+                      className="w-full border-3 border-black px-4 py-3 font-sans text-sm bg-white focus:bg-[#f4f7ff] focus:outline-none shadow-[4px_4px_0_0_#1a1a1a] focus:shadow-[4px_4px_0_0_#0055FF] focus:-translate-y-1 focus:-translate-x-1 transition-all relative z-20"
                     />
                   </div>
                   <div>
@@ -418,7 +461,7 @@ export default function SubmitPage() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder={authMode === "signup" ? "Create a password (min 6 chars)" : "Your password"}
-                      className="w-full border-2 border-black px-3 py-2 font-sans text-sm bg-gray-50 focus:bg-white focus:outline-none focus:shadow-[3px_3px_0_0_#0055FF] transition-shadow"
+                      className="w-full border-3 border-black px-4 py-3 font-sans text-sm bg-white focus:bg-[#f4f7ff] focus:outline-none shadow-[4px_4px_0_0_#1a1a1a] focus:shadow-[4px_4px_0_0_#0055FF] focus:-translate-y-1 focus:-translate-x-1 transition-all relative z-20"
                     />
                   </div>
 
@@ -628,18 +671,21 @@ export default function SubmitPage() {
                 onChange={(e) => setSubmission((p) => ({ ...p, project_title: e.target.value }))}
                 disabled={isLocked}
                 placeholder="Type your project name"
-                className="w-full border-2 border-black px-3 py-2 font-sans text-sm bg-gray-50 focus:bg-white focus:outline-none focus:shadow-[3px_3px_0_0_#0055FF] transition-shadow disabled:opacity-50"
+                className="w-full border-3 border-black px-4 py-3 font-sans text-sm bg-white focus:bg-[#f4f7ff] focus:outline-none shadow-[4px_4px_0_0_#1a1a1a] focus:shadow-[4px_4px_0_0_#0055FF] focus:-translate-y-1 focus:-translate-x-1 transition-all relative z-20 disabled:opacity-50"
               />
             </FieldBlock>
             <FieldBlock label="Problem Statement *" >
-              <input
-                type="text"
+              <select
                 value={submission.problem_statement}
                 onChange={(e) => setSubmission((p) => ({ ...p, problem_statement: e.target.value }))}
                 disabled={isLocked}
-                placeholder="Enter the offical Problem staement"
-                className="w-full border-2 border-black px-3 py-2 font-sans text-sm bg-gray-50 focus:bg-white focus:outline-none focus:shadow-[3px_3px_0_0_#0055FF] transition-shadow disabled:opacity-50"
-              />
+                className="w-full border-3 border-black px-4 py-3 font-sans text-sm bg-white focus:bg-[#f4f7ff] focus:outline-none shadow-[4px_4px_0_0_#1a1a1a] focus:shadow-[4px_4px_0_0_#0055FF] focus:-translate-y-1 focus:-translate-x-1 transition-all relative z-20 disabled:opacity-50 appearance-none cursor-pointer"
+              >
+                <option value="" disabled>Select the official Problem Statement</option>
+                {PROBLEM_STATEMENTS.map((ps, i) => (
+                  <option key={i} value={ps}>{ps}</option>
+                ))}
+              </select>
             </FieldBlock>
           </div>
 
@@ -653,7 +699,7 @@ export default function SubmitPage() {
               disabled={isLocked}
               rows={2}
               placeholder="Brief overview of your project..."
-              className="w-full border-2 border-black px-3 py-2 font-sans text-sm bg-gray-50 focus:bg-white focus:outline-none focus:shadow-[3px_3px_0_0_#0055FF] transition-shadow resize-none disabled:opacity-50"
+              className="w-full border-3 border-black px-4 py-3 font-sans text-sm bg-white focus:bg-[#f4f7ff] focus:outline-none shadow-[4px_4px_0_0_#1a1a1a] focus:shadow-[4px_4px_0_0_#0055FF] focus:-translate-y-1 focus:-translate-x-1 transition-all relative z-20 resize-none disabled:opacity-50"
             />
           </FieldBlock>
 
@@ -666,7 +712,7 @@ export default function SubmitPage() {
                 disabled={isLocked}
                 rows={3}
                 placeholder="Describe your approach..."
-                className="w-full border-2 border-black px-3 py-2 font-sans text-sm bg-gray-50 focus:bg-white focus:outline-none focus:shadow-[3px_3px_0_0_#0055FF] transition-shadow resize-none disabled:opacity-50"
+                className="w-full border-3 border-black px-4 py-3 font-sans text-sm bg-white focus:bg-[#f4f7ff] focus:outline-none shadow-[4px_4px_0_0_#1a1a1a] focus:shadow-[4px_4px_0_0_#0055FF] focus:-translate-y-1 focus:-translate-x-1 transition-all relative z-20 resize-none disabled:opacity-50"
               />
             </FieldBlock>
             <FieldBlock label="Challenges We Ran Into *" hint="What was hard?">
@@ -676,7 +722,7 @@ export default function SubmitPage() {
                 disabled={isLocked}
                 rows={3}
                 placeholder="Describe the challenges..."
-                className="w-full border-2 border-black px-3 py-2 font-sans text-sm bg-gray-50 focus:bg-white focus:outline-none focus:shadow-[3px_3px_0_0_#0055FF] transition-shadow resize-none disabled:opacity-50"
+                className="w-full border-3 border-black px-4 py-3 font-sans text-sm bg-white focus:bg-[#f4f7ff] focus:outline-none shadow-[4px_4px_0_0_#1a1a1a] focus:shadow-[4px_4px_0_0_#0055FF] focus:-translate-y-1 focus:-translate-x-1 transition-all relative z-20 resize-none disabled:opacity-50"
               />
             </FieldBlock>
           </div>
@@ -689,7 +735,7 @@ export default function SubmitPage() {
               onChange={(e) => setSubmission((p) => ({ ...p, tech_stack: e.target.value }))}
               disabled={isLocked}
               placeholder="e.g. React, Node.js, OpenAI API, MongoDB"
-              className="w-full border-2 border-black px-3 py-2 font-sans text-sm bg-gray-50 focus:bg-white focus:outline-none focus:shadow-[3px_3px_0_0_#0055FF] transition-shadow disabled:opacity-50"
+              className="w-full border-3 border-black px-4 py-3 font-sans text-sm bg-white focus:bg-[#f4f7ff] focus:outline-none shadow-[4px_4px_0_0_#1a1a1a] focus:shadow-[4px_4px_0_0_#0055FF] focus:-translate-y-1 focus:-translate-x-1 transition-all relative z-20 disabled:opacity-50"
             />
           </FieldBlock>
 
@@ -702,7 +748,7 @@ export default function SubmitPage() {
                 onChange={(e) => setSubmission((p) => ({ ...p, github_link: e.target.value }))}
                 disabled={isLocked}
                 placeholder="https://github.com/..."
-                className="w-full border-2 border-black px-3 py-2 font-sans text-sm bg-gray-50 focus:bg-white focus:outline-none focus:shadow-[3px_3px_0_0_#0055FF] transition-shadow disabled:opacity-50"
+                className="w-full border-3 border-black px-4 py-3 font-sans text-sm bg-white focus:bg-[#f4f7ff] focus:outline-none shadow-[4px_4px_0_0_#1a1a1a] focus:shadow-[4px_4px_0_0_#0055FF] focus:-translate-y-1 focus:-translate-x-1 transition-all relative z-20 disabled:opacity-50"
               />
             </FieldBlock>
             <FieldBlock label="Live Demo" icon={<ExternalLink className="w-3.5 h-3.5" />} optional>
@@ -712,7 +758,7 @@ export default function SubmitPage() {
                 onChange={(e) => setSubmission((p) => ({ ...p, live_demo_link: e.target.value }))}
                 disabled={isLocked}
                 placeholder="https://..."
-                className="w-full border-2 border-black px-3 py-2 font-sans text-sm bg-gray-50 focus:bg-white focus:outline-none focus:shadow-[3px_3px_0_0_#0055FF] transition-shadow disabled:opacity-50"
+                className="w-full border-3 border-black px-4 py-3 font-sans text-sm bg-white focus:bg-[#f4f7ff] focus:outline-none shadow-[4px_4px_0_0_#1a1a1a] focus:shadow-[4px_4px_0_0_#0055FF] focus:-translate-y-1 focus:-translate-x-1 transition-all relative z-20 disabled:opacity-50"
               />
             </FieldBlock>
             <FieldBlock label="YouTube Video" icon={<Video className="w-3.5 h-3.5" />} optional>
@@ -722,7 +768,7 @@ export default function SubmitPage() {
                 onChange={(e) => setSubmission((p) => ({ ...p, youtube_link: e.target.value }))}
                 disabled={isLocked}
                 placeholder="https://youtube.com/..."
-                className="w-full border-2 border-black px-3 py-2 font-sans text-sm bg-gray-50 focus:bg-white focus:outline-none focus:shadow-[3px_3px_0_0_#0055FF] transition-shadow disabled:opacity-50"
+                className="w-full border-3 border-black px-4 py-3 font-sans text-sm bg-white focus:bg-[#f4f7ff] focus:outline-none shadow-[4px_4px_0_0_#1a1a1a] focus:shadow-[4px_4px_0_0_#0055FF] focus:-translate-y-1 focus:-translate-x-1 transition-all relative z-20 disabled:opacity-50"
               />
             </FieldBlock>
           </div>
@@ -752,8 +798,13 @@ export default function SubmitPage() {
                   {submission.screenshots.length < 4 && !isLocked && (
                     <label className="border-2 border-dashed border-black aspect-video flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors">
                       <input type="file" accept="image/*" onChange={handleScreenshotUpload} className="hidden" multiple />
-                      {uploading ? (
-                        <span className="font-mono text-[10px] font-bold text-gray-400 uppercase animate-pulse">Uploading...</span>
+                      {uploadingScreenshot ? (
+                        <div className="w-full h-full flex flex-col items-center justify-center px-4">
+                          <span className="font-mono text-[10px] font-bold text-gray-400 uppercase mb-2">Uploading {uploadProgressScreenshot}%</span>
+                          <div className="w-full h-2 bg-gray-200 border-2 border-black">
+                            <div className="h-full bg-[#FF4D00] transition-all duration-200" style={{ width: `${uploadProgressScreenshot}%` }}></div>
+                          </div>
+                        </div>
                       ) : (
                         <>
                           <ImagePlus className="w-5 h-5 text-gray-400 mb-1" />
@@ -783,8 +834,13 @@ export default function SubmitPage() {
               ) : !isLocked ? (
                 <label className="border-2 border-dashed border-black aspect-square w-full max-w-[120px] flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors">
                   <input type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
-                  {uploading ? (
-                    <span className="font-mono text-[10px] font-bold text-gray-400 uppercase animate-pulse">...</span>
+                  {uploadingLogo ? (
+                        <div className="w-full h-full flex flex-col items-center justify-center px-2">
+                          <span className="font-mono text-[10px] font-bold text-gray-400 uppercase mb-2">{uploadProgressLogo}%</span>
+                          <div className="w-full h-1.5 bg-gray-200 border border-black">
+                            <div className="h-full bg-[#FF4D00] transition-all duration-200" style={{ width: `${uploadProgressLogo}%` }}></div>
+                          </div>
+                        </div>
                   ) : (
                     <>
                       <Upload className="w-5 h-5 text-gray-400 mb-1" />
@@ -805,7 +861,7 @@ export default function SubmitPage() {
             <div className="pt-2 pb-8 flex flex-col sm:flex-row gap-4">
               <button
                 onClick={handleSubmit}
-                disabled={loading || uploading}
+                disabled={loading || uploadingScreenshot || uploadingLogo}
                 className="flex-1 bg-[#FF4D00] text-white font-display font-black uppercase tracking-widest text-sm md:text-base py-4 border-3 border-black shadow-[6px_6px_0_0_#1a1a1a] hover:shadow-[3px_3px_0_0_#1a1a1a] hover:translate-x-[3px] hover:translate-y-[3px] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {loading ? (
@@ -823,7 +879,7 @@ export default function SubmitPage() {
               {hasExisting && (
                 <button
                   onClick={() => { setViewMode(true); setMessage(null); fetchSubmission(); }}
-                  disabled={loading || uploading}
+                  disabled={loading || uploadingScreenshot || uploadingLogo}
                   className="sm:w-48 bg-white text-[#0A1128] font-display font-black uppercase tracking-widest text-sm py-4 border-3 border-black shadow-[6px_6px_0_0_#1a1a1a] hover:shadow-[3px_3px_0_0_#1a1a1a] hover:translate-x-[3px] hover:translate-y-[3px] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   Cancel
@@ -855,14 +911,16 @@ function FieldBlock({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <div className="flex items-center gap-2 mb-1.5">
-        {icon && <span className="text-gray-400">{icon}</span>}
-        <label className="font-mono text-[10px] uppercase tracking-widest font-bold text-gray-500">{label}</label>
-        {optional && <span className="font-mono text-[8px] text-gray-300 uppercase">(optional)</span>}
+    <div className="relative group mb-2">
+      <div className="flex items-center gap-2 mb-3">
+        {icon && <span className="text-[#FF4D00] border-2 border-black p-0.5 bg-white shadow-[2px_2px_0_0_#1a1a1a]">{icon}</span>}
+        <label className="font-display text-[11px] md:text-xs uppercase tracking-widest font-black text-[#0A1128] bg-[#FFB800] px-2.5 py-1 border-2 border-black -rotate-1 group-hover:rotate-0 transition-all shadow-[2px_2px_0_0_#1a1a1a] z-10">
+          {label}
+        </label>
+        {optional && <span className="font-mono text-[9px] text-gray-500 uppercase font-bold bg-white border-2 border-dashed border-gray-300 px-1">(optional)</span>}
       </div>
       {children}
-      {hint && <p className="font-mono text-[9px] text-gray-400 mt-1">{hint}</p>}
+      {hint && <p className="font-mono text-[9px] font-bold text-gray-500 mt-2 bg-white inline-block px-1.5 py-0.5 border border-dashed border-gray-300">{hint}</p>}
     </div>
   );
 }

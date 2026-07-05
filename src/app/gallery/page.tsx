@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, Filter, Code2, ExternalLink, Video, X, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { PROBLEM_STATEMENTS } from "../submit/page";
 
 interface Project {
   id: string;
@@ -49,11 +50,8 @@ export default function GalleryPage() {
     fetchProjects();
   }, []);
 
-  // Extract unique problem statements for filter
-  const problemStatements = useMemo(() => {
-    const problems = new Set(projects.map(p => p.problem_statement).filter(Boolean));
-    return ["All", ...Array.from(problems)];
-  }, [projects]);
+  // Use the predefined problem statements for the filter
+  const problemStatements = ["All", ...PROBLEM_STATEMENTS];
 
   // Filter projects based on search and problem statement
   const filteredProjects = useMemo(() => {
