@@ -126,7 +126,7 @@ export default function AdminDashboard() {
 
   const handleExportCSV = () => {
     const headers = ["Team Name", "Invite Code", "Submitted", "Member Name", "Role", "Food Pref", "Checked In", "Got Food"];
-    const rows = [];
+    const rows: string[][] = [];
 
     teams.forEach(t => {
       if (t.members.length === 0) {
