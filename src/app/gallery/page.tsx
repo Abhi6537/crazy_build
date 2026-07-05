@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Filter, Code2, ExternalLink, Video, X, ChevronRight, Github } from "lucide-react";
+import { Search, Filter, Code2, ExternalLink, Video, X, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
