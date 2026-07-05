@@ -6,10 +6,14 @@ export default function Roadmap() {
   // FUTURE-PROOF DATA STRUCTURE
   // Just update this array when the timeline is decided! The layout will automatically adapt.
   const timelineData = [
-    { id: 1, time: "", title: "Start", desc: "Revealing Soon" },
-    { id: 2, time: "??:??", title: "Check In", desc: "Revealing Soon" },
-    { id: 3, time: "??:??", title: "Activity", desc: "Revealing Soon" },
-    { id: 4, time: " ", title: "Wrap Up", desc: "Revealing Soon" }
+    { id: 1, time: "08:30 AM", title: "Check-in", desc: "Arrival & Setup", color: "#00E0FF" },
+    { id: 2, time: "09:00 AM", title: "Opening Ceremony", desc: "Welcome & Guidelines", color: "#FFB800" },
+    { id: 3, time: "09:30 AM", title: "Hacking Begins", desc: "Start building!", color: "#FF4D00" },
+    { id: 4, time: "01:00 PM - 02:00 PM", title: "Lunch", desc: "Fuel up & network", color: "#0055FF" },
+    { id: 5, time: "04:00 PM", title: "Hacking Ends", desc: "Keyboards down", color: "#FF0033" },
+    { id: 6, time: "04:00 PM - 05:00 PM", title: "Judging Process", desc: "Project evaluations", color: "#FFB800" },
+    { id: 7, time: "05:00 PM - 05:30 PM", title: "Closing Ceremony", desc: "Prize Distribution", color: "#00E0FF" },
+    { id: 8, time: "05:30 PM", title: "Wrap-Up & Photo", desc: "Farewells", color: "#0055FF" }
   ];
 
   return (
@@ -39,93 +43,102 @@ export default function Roadmap() {
           </h2>
         </div>
 
-        {/* Right Column - The Timeline */}
-        <div className="w-full lg:w-11/12 relative py-2 md:py-4">
+        {/* The Timeline */}
+        <div className="w-full lg:w-11/12 relative py-2 md:py-8">
           
-          {/* Center Vertical Line */}
-          <div className="absolute top-0 bottom-0 left-6 md:left-1/2 transform md:-translate-x-1/2 w-1 md:w-2 bg-black pointer-events-none z-0 rounded-full"></div>
+          {/* Mobile Timeline (below md) */}
+          <div className="md:hidden relative z-10 flex flex-col gap-4 pb-8">
+            {/* Center Vertical Line */}
+            <div className="absolute top-0 bottom-0 left-[26px] w-1 bg-black pointer-events-none z-0"></div>
 
-          {/* Timeline Nodes */}
-          <div className="relative z-10 flex flex-col gap-6 md:gap-8">
             {timelineData.map((item, idx) => (
               <motion.div 
                 key={item.id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className={`flex flex-col md:flex-row items-center gap-8 ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.3, delay: idx * 0.05 }}
+                className="flex flex-row items-center gap-4 relative"
               >
+                {/* Node / Dot */}
+                <div className="w-4 h-4 min-w-[16px] ml-4 border-[3px] border-black shadow-[2px_2px_0_0_#1a1a1a] z-20" style={{ backgroundColor: item.color }}></div>
+                
                 {/* Content Card */}
-                <div className="w-full md:w-1/2 flex flex-col pl-14 pr-2 md:px-8 items-start">
-                  <div className={`bg-[#f9f8f6] border-[3px] md:border-4 border-black p-3 md:p-4 shadow-[4px_4px_0_0_#1a1a1a] transform transition-transform hover:-translate-y-1 w-full max-w-xs ${idx % 2 === 0 ? 'md:mr-auto' : 'md:ml-auto'}`}>
-                    <div className="font-display font-bold text-base md:text-lg text-[#FF0033] mb-1">{item.time}</div>
-                    <h3 className="font-display font-black text-lg md:text-xl uppercase text-[#0A1128] mb-1">{item.title}</h3>
-                    <p className="font-sans text-xs md:text-sm text-black/70 font-medium">{item.desc}</p>
+                <div className="flex-1 pr-2">
+                  <div className="bg-white border-[3px] border-black p-3 shadow-[4px_4px_0_0_#1a1a1a] w-full relative">
+                    <div className="absolute -top-1 -right-1 w-4 h-4 border-2 border-black shadow-[2px_2px_0_0_#1a1a1a] z-10 rotate-6" style={{ backgroundColor: item.color }}></div>
+                    <div className="font-mono font-bold text-[9px] mb-1 px-1 py-0.5 border-2 border-black inline-block" style={{ backgroundColor: item.color }}>{item.time}</div>
+                    <h3 className="font-display font-black text-sm uppercase text-[#0A1128] mt-1 mb-0.5">{item.title}</h3>
+                    <p className="font-sans text-[9px] text-gray-500 font-bold uppercase tracking-widest">{item.desc}</p>
                   </div>
                 </div>
-
-                {/* Center Node / Dot */}
-                <div className="absolute left-6 md:left-1/2 transform -translate-x-1/2 w-3.5 h-3.5 md:w-4 md:h-4 bg-[#00E0FF] border-2 md:border-[3px] border-black rounded-full shadow-[2px_2px_0_0_#1a1a1a] z-20"></div>
-
               </motion.div>
             ))}
           </div>
 
-          {/* CLASSIFIED / REVEALING SOON OVERLAY */}
-          <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none overflow-hidden">
-            {/* Blurry backdrop masking the middle events */}
-            <div className="absolute top-1/4 bottom-1/4 left-0 right-0 backdrop-blur-[8px] bg-white/40 pointer-events-auto flex items-center justify-center border-y-4 border-dashed border-black/50">
-              
-              {/* Caution Tapes */}
-              <motion.div 
-                initial={{ scale: 0.8, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                className="relative w-full max-w-4xl flex flex-col items-center justify-center pointer-events-auto -mt-6"
-              >
-                <div className="w-[150%] bg-[#FFB800] border-y-4 border-black py-2 md:py-3 transform -rotate-3 flex overflow-hidden whitespace-nowrap shadow-2xl z-40">
-                  <div className="animate-marquee flex font-display font-black text-sm md:text-3xl uppercase tracking-widest text-black">
-                    {[...Array(15)].map((_, i) => (
-                      <span key={i} className="mx-2 md:mx-4">⚠️ REVEALING SOON ⚠️ CLASSIFIED </span>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="w-[150%] bg-black border-y-4 border-black py-2 md:py-3 transform rotate-2 flex overflow-hidden whitespace-nowrap shadow-2xl -mt-4 md:-mt-6 z-30">
-                  <div className="animate-marquee-reverse flex font-display font-black text-sm md:text-3xl uppercase tracking-widest text-[#FFB800]">
-                    {[...Array(15)].map((_, i) => (
-                      <span key={i} className="mx-2 md:mx-4">TIMELINE LOCKED // STANDBY // </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
+          {/* Desktop Central Spine Timeline (md and up) */}
+          <div className="hidden md:flex relative w-full items-center mt-12 mb-12 min-h-[400px]">
+            
+            {/* The Wavy Snake Line */}
+            <svg className="absolute top-1/2 left-[6.25%] right-[6.25%] w-[87.5%] h-[120px] -translate-y-1/2 z-0 overflow-visible pointer-events-none" viewBox="0 0 700 200" preserveAspectRatio="none">
+              <path 
+                d="M0,100 Q50,0 100,100 T200,100 T300,100 T400,100 T500,100 T600,100 T700,100" 
+                fill="none" 
+                stroke="black" 
+                strokeWidth="4" 
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
 
+            <div className="flex w-full justify-between items-center relative z-10">
+              {timelineData.map((item, idx) => {
+                const isTop = idx % 2 === 0;
+                return (
+                  <motion.div 
+                    key={item.id}
+                    initial={{ opacity: 0, y: isTop ? -50 : 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1 }}
+                    className="flex flex-col items-center relative flex-1 group"
+                  >
+                    
+                    {isTop ? (
+                      // Card Above
+                      <div className="absolute bottom-[10px] flex flex-col items-center pb-2 w-full">
+                        <div className="bg-white border-[3px] border-black p-2 shadow-[4px_4px_0_0_#1a1a1a] transform transition-transform hover:-translate-y-2 hover:shadow-[6px_6px_0_0_#1a1a1a] w-[90%] max-w-[160px] relative z-20 mb-2">
+                          <div className="absolute -top-1.5 -right-1.5 w-4 h-4 border-2 border-black shadow-[2px_2px_0_0_#1a1a1a] z-10 rotate-6" style={{ backgroundColor: item.color }}></div>
+                          <div className="font-mono font-bold text-[9px] lg:text-[10px] mb-1 px-1.5 py-0.5 border-2 border-black inline-block" style={{ backgroundColor: item.color }}>{item.time}</div>
+                          <h3 className="font-display font-black text-[11px] lg:text-xs uppercase text-[#0A1128] mt-1 mb-0.5 leading-tight">{item.title}</h3>
+                          <p className="font-sans text-[8px] lg:text-[9px] text-gray-500 font-bold uppercase tracking-widest leading-tight">{item.desc}</p>
+                        </div>
+                        {/* Connecting Stem */}
+                        <div className="w-1 h-6 bg-black z-0"></div>
+                      </div>
+                    ) : (
+                      // Card Below
+                      <div className="absolute top-[10px] flex flex-col items-center pt-2 w-full">
+                        {/* Connecting Stem */}
+                        <div className="w-1 h-6 bg-black z-0"></div>
+                        <div className="bg-white border-[3px] border-black p-2 shadow-[4px_4px_0_0_#1a1a1a] transform transition-transform hover:translate-y-2 hover:shadow-[6px_6px_0_0_#1a1a1a] w-[90%] max-w-[160px] relative z-20 mt-2">
+                          <div className="absolute -bottom-1.5 -left-1.5 w-4 h-4 border-2 border-black shadow-[2px_2px_0_0_#1a1a1a] z-10 -rotate-6" style={{ backgroundColor: item.color }}></div>
+                          <div className="font-mono font-bold text-[9px] lg:text-[10px] mb-1 px-1.5 py-0.5 border-2 border-black inline-block" style={{ backgroundColor: item.color }}>{item.time}</div>
+                          <h3 className="font-display font-black text-[11px] lg:text-xs uppercase text-[#0A1128] mt-1 mb-0.5 leading-tight">{item.title}</h3>
+                          <p className="font-sans text-[8px] lg:text-[9px] text-gray-500 font-bold uppercase tracking-widest leading-tight">{item.desc}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Node on the central line */}
+                    <div className="w-5 h-5 border-[3px] border-black bg-white shadow-[2px_2px_0_0_#1a1a1a] z-10 hover:scale-150 transition-transform cursor-pointer relative" style={{ backgroundColor: item.color }}></div>
+
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
-
         </div>
       </div>
-      
-      {/* Required CSS for Marquee animation */}
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes marquee-reverse {
-          0% { transform: translateX(-50%); }
-          100% { transform: translateX(0); }
-        }
-        .animate-marquee {
-          animation: marquee 20s linear infinite;
-          width: 200%;
-        }
-        .animate-marquee-reverse {
-          animation: marquee-reverse 20s linear infinite;
-          width: 200%;
-        }
-      `}} />
     </section>
   );
 }

@@ -1,11 +1,9 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Lock, BookOpen } from "lucide-react";
-import { useState } from "react";
 
 export default function Themes() {
-  const [showGuideMessage, setShowGuideMessage] = useState(false);
 
   return (
     <section id="themes" className="py-12 md:py-16 relative overflow-hidden border-y-2 border-black">
@@ -78,53 +76,36 @@ export default function Themes() {
               </div>
               
 
-              
-              <div className="w-full max-w-[200px] md:max-w-md h-1.5 bg-black mb-6 md:mb-8 transform rotate-1 relative overflow-hidden">
-                <motion.div 
-                  animate={{ x: ["-100%", "300%"] }}
-                  transition={{ repeat: Infinity, duration: 2.5, ease: "linear" }}
-                  className="absolute inset-0 bg-[#0055FF] w-1/3"
-                />
-              </div>
 
-              <div className="bg-gray-50 border-4 border-black p-4 md:p-8 shadow-[4px_4px_0_0_#1a1a1a] md:shadow-[6px_6px_0_0_#1a1a1a] transform -rotate-1 relative w-full max-w-md md:max-w-none flex flex-col items-center">
-                {/* Inner border element */}
-                <div className="absolute inset-1 md:inset-2 border-2 border-black/10 border-dashed pointer-events-none"></div>
+              <div className="bg-[#0055FF] border-4 border-black p-6 md:p-10 shadow-[6px_6px_0_0_#1a1a1a] md:shadow-[10px_10px_0_0_#1a1a1a] transform hover:-translate-y-2 transition-transform duration-300 relative w-full flex flex-col items-center group">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_#ffffff_2px,_transparent_2px)] bg-[size:16px_16px]"></div>
                 
-                <p className="font-sans font-black text-sm md:text-lg text-[#FF4D00] leading-relaxed uppercase tracking-widest relative z-10 text-center mb-5 md:mb-6">
-                  The Problem Statements are fully detailed inside the Hacker Guide.
+                {/* Tape element */}
+                <div className="absolute -top-3 right-4 md:right-10 w-24 h-8 bg-[#FFB800] -rotate-3 border-2 border-black z-20 shadow-[2px_2px_0_0_#1a1a1a] flex items-center justify-center">
+                  <span className="font-mono text-[10px] font-black uppercase">LIVE NOW</span>
+                </div>
+                
+                <h3 className="font-display font-black text-3xl md:text-5xl text-white uppercase tracking-tighter relative z-10 text-center mb-2 leading-none" style={{ textShadow: '4px 4px 0 #0A1128' }}>
+                  The Hacker Guide
+                </h3>
+                
+                <p className="font-mono font-bold text-xs md:text-sm text-[#FFB800] bg-[#0A1128] px-3 py-1 border-2 border-black uppercase tracking-widest relative z-10 text-center mb-6 md:mb-8 shadow-[3px_3px_0_0_#FF4D00] -rotate-1">
+                  All Problem Statements & Rules Inside
                 </p>
 
-                <button 
-                  onClick={() => setShowGuideMessage(!showGuideMessage)}
-                  className="relative z-10 bg-[#0A1128] hover:bg-[#0055FF] text-white font-display font-bold uppercase tracking-widest text-xs md:text-sm px-5 py-3 border-2 border-black shadow-[4px_4px_0_0_#FFB800] hover:shadow-[2px_2px_0_0_#FFB800] hover:translate-y-[2px] hover:translate-x-[2px] transition-all flex items-center gap-3"
+                <a 
+                  href="https://held-venom-613.notion.site/Crazy-Build-2026-Hacker-Guide-391a3a10fbf58092b1bfe5427560b2ff"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="relative z-10 bg-[#FF4D00] hover:bg-[#FFB800] hover:text-[#0A1128] text-white font-display font-black uppercase tracking-widest text-sm md:text-xl px-8 py-4 border-4 border-black shadow-[6px_6px_0_0_#0A1128] hover:shadow-[2px_2px_0_0_#0A1128] hover:translate-y-[4px] hover:translate-x-[4px] transition-all flex items-center gap-3 w-full sm:w-auto justify-center group-hover:scale-105"
                 >
-                  <BookOpen className="w-4 h-4 md:w-5 md:h-5" />
-                  Access Hacker Guide
-                </button>
-
-                <AnimatePresence>
-                  {showGuideMessage && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                      animate={{ opacity: 1, height: "auto", marginTop: 20 }}
-                      exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                      className="relative z-10 w-full overflow-hidden"
-                    >
-                      <div className="bg-[#FFB800] border-2 border-black p-3 md:p-4 transform rotate-1 shadow-[2px_2px_0_0_#1a1a1a]">
-                        <p className="font-mono text-[10px] md:text-xs font-bold text-black text-center leading-relaxed uppercase tracking-wider">
-                          ⚠️ Hacker Guide will be provided on <span className="text-[#FF0033] font-black text-sm md:text-base px-1 bg-white border border-black inline-block transform -rotate-2">5th July</span> to the WhatsApp group of the team leads and will be updated here as well.
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                  <BookOpen className="w-5 h-5 md:w-6 md:h-6" />
+                  Read The Guide
+                </a>
               </div>
 
-              <div className="mt-8 md:mt-10 flex items-center justify-center gap-2 md:gap-3 font-mono text-[10px] md:text-sm font-bold uppercase tracking-widest text-gray-500 bg-white border-2 border-black px-3 md:px-4 py-2 shadow-[2px_2px_0_0_#1a1a1a]">
-                <span className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-red-500 border border-black"></span>
-                <span>Registration is now closed</span>
-              </div>
+
             </div>
           </div>
         </motion.div>
