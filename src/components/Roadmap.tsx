@@ -46,10 +46,19 @@ export default function Roadmap() {
         {/* The Timeline */}
         <div className="w-full lg:w-11/12 relative py-2 md:py-8">
           
-          {/* Mobile Timeline (below md) */}
-          <div className="md:hidden relative z-10 flex flex-col gap-4 pb-8">
-            {/* Center Vertical Line */}
-            <div className="absolute top-0 bottom-0 left-[26px] w-1 bg-black pointer-events-none z-0"></div>
+          {/* Mobile Snake Timeline (below md) */}
+          <div className="md:hidden relative z-10 grid grid-rows-8 w-full mb-8">
+            
+            {/* Vertical Wavy Snake Line */}
+            <svg className="absolute top-[6.25%] left-0 w-12 h-[87.5%] pointer-events-none z-0 overflow-visible" viewBox="0 0 100 700" preserveAspectRatio="none">
+              <path 
+                d="M50,0 Q0,50 50,100 T50,200 T50,300 T50,400 T50,500 T50,600 T50,700" 
+                fill="none" 
+                stroke="black" 
+                strokeWidth="4" 
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
 
             {timelineData.map((item, idx) => (
               <motion.div 
@@ -58,18 +67,18 @@ export default function Roadmap() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.3, delay: idx * 0.05 }}
-                className="flex flex-row items-center gap-4 relative"
+                className="flex flex-row items-center relative w-full"
               >
                 {/* Node / Dot */}
-                <div className="w-4 h-4 min-w-[16px] ml-4 border-[3px] border-black shadow-[2px_2px_0_0_#1a1a1a] z-20" style={{ backgroundColor: item.color }}></div>
+                <div className="w-4 h-4 min-w-[16px] ml-4 border-[3px] border-black bg-white shadow-[2px_2px_0_0_#1a1a1a] z-20" style={{ backgroundColor: item.color }}></div>
                 
                 {/* Content Card */}
-                <div className="flex-1 pr-2">
-                  <div className="bg-white border-[3px] border-black p-3 shadow-[4px_4px_0_0_#1a1a1a] w-full relative">
+                <div className="flex-1 pl-4 pr-2 py-2">
+                  <div className="bg-white border-[3px] border-black p-2.5 shadow-[4px_4px_0_0_#1a1a1a] w-full relative">
                     <div className="absolute -top-1 -right-1 w-4 h-4 border-2 border-black shadow-[2px_2px_0_0_#1a1a1a] z-10 rotate-6" style={{ backgroundColor: item.color }}></div>
-                    <div className="font-mono font-bold text-[9px] mb-1 px-1 py-0.5 border-2 border-black inline-block" style={{ backgroundColor: item.color }}>{item.time}</div>
-                    <h3 className="font-display font-black text-sm uppercase text-[#0A1128] mt-1 mb-0.5">{item.title}</h3>
-                    <p className="font-sans text-[9px] text-gray-500 font-bold uppercase tracking-widest">{item.desc}</p>
+                    <div className="font-mono font-bold text-[9px] mb-0.5 px-1 py-0.5 border-2 border-black inline-block" style={{ backgroundColor: item.color }}>{item.time}</div>
+                    <h3 className="font-display font-black text-[12px] uppercase text-[#0A1128] mt-0.5 mb-0.5 leading-tight">{item.title}</h3>
+                    <p className="font-sans text-[9px] text-gray-500 font-bold uppercase tracking-widest leading-tight">{item.desc}</p>
                   </div>
                 </div>
               </motion.div>
