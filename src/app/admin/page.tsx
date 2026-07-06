@@ -28,8 +28,10 @@ export default function AdminDashboard() {
   const [loginError, setLoginError] = useState("");
   
   const [teams, setTeams] = useState<Team[]>([]);
+  const [appSettings, setAppSettings] = useState({ submission_status: 'PRE_HACKATHON', admin_message: '' });
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [updatingSettings, setUpdatingSettings] = useState(false);
 
   const checkAuthAndFetchData = async () => {
     setLoading(true);
@@ -40,12 +42,31 @@ export default function AdminDashboard() {
       } else if (res.ok) {
         const data = await res.json();
         setTeams(data.teams || []);
+        if (data.appSettings) setAppSettings(data.appSettings);
         setIsAuthenticated(true);
       }
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleUpdateSettings = async (newStatus: string, newMessage: string) => {
+    setUpdatingSettings(true);
+    try {
+      const res = await fetch("/api/admin/update-settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ submission_status: newStatus, admin_message: newMessage }),
+      });
+      if (res.ok) {
+        setAppSettings({ submission_status: newStatus, admin_message: newMessage });
+      }
+    } catch (err) {
+      console.error("Failed to update settings", err);
+    } finally {
+      setUpdatingSettings(false);
     }
   };
 
@@ -287,6 +308,67 @@ export default function AdminDashboard() {
           <div className="bg-[#0055FF] border-2 border-black p-4 shadow-[4px_4px_0_0_#1a1a1a] text-white">
             <p className="font-mono text-[10px] uppercase font-bold text-white/80 mb-1">Food: Non-Veg Delivered</p>
             <p className="font-display font-black text-3xl">{stats.nonVegReceived}<span className="text-xl text-white/50">/{stats.totalNonVeg}</span></p>
+          </div>
+        </div>
+
+        {/* Submission Portal Controls */}
+        <div className="mb-8 relative z-10 bg-white border-4 border-black shadow-[8px_8px_0_0_#1a1a1a] p-6">
+          <h2 className="font-display font-black text-2xl uppercase mb-4 text-[#0A1128]">Portal Controls</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <button 
+              onClick={() => handleUpdateSettings('PRE_HACKATHON', appSettings.admin_message)}
+              disabled={updatingSettings}
+              className={`p-4 border-4 border-black font-mono font-bold uppercase tracking-wider text-sm transition-all ${
+                appSettings.submission_status === 'PRE_HACKATHON' 
+                  ? 'bg-[#FF0033] text-white shadow-[inset_4px_4px_0_0_rgba(0,0,0,0.5)]' 
+                  : 'bg-white hover:bg-gray-100 shadow-[4px_4px_0_0_#1a1a1a]'
+              }`}
+            >
+              🔴 Pre-Hackathon<br/><span className="text-xs opacity-80">(Locked)</span>
+            </button>
+            <button 
+              onClick={() => handleUpdateSettings('LIVE', appSettings.admin_message)}
+              disabled={updatingSettings}
+              className={`p-4 border-4 border-black font-mono font-bold uppercase tracking-wider text-sm transition-all ${
+                appSettings.submission_status === 'LIVE' 
+                  ? 'bg-[#00D084] text-black shadow-[inset_4px_4px_0_0_rgba(0,0,0,0.5)]' 
+                  : 'bg-white hover:bg-gray-100 shadow-[4px_4px_0_0_#1a1a1a]'
+              }`}
+            >
+              🟢 Live<br/><span className="text-xs opacity-80">(Timer Active)</span>
+            </button>
+            <button 
+              onClick={() => handleUpdateSettings('OVERRIDE_EXTENDED', appSettings.admin_message)}
+              disabled={updatingSettings}
+              className={`p-4 border-4 border-black font-mono font-bold uppercase tracking-wider text-sm transition-all ${
+                appSettings.submission_status === 'OVERRIDE_EXTENDED' 
+                  ? 'bg-[#0055FF] text-white shadow-[inset_4px_4px_0_0_rgba(0,0,0,0.5)]' 
+                  : 'bg-white hover:bg-gray-100 shadow-[4px_4px_0_0_#1a1a1a]'
+              }`}
+            >
+              🔵 Force Open<br/><span className="text-xs opacity-80">(Extended)</span>
+            </button>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-4 items-end">
+            <div className="flex-1 w-full">
+              <label className="block font-mono text-xs font-bold uppercase tracking-widest mb-2">Broadcast Banner Message</label>
+              <input 
+                type="text" 
+                value={appSettings.admin_message}
+                onChange={(e) => setAppSettings({ ...appSettings, admin_message: e.target.value })}
+                placeholder="e.g. Deadline extended by 30 minutes! Keep building!"
+                className="w-full border-2 border-black p-3 font-sans focus:outline-none focus:ring-2 ring-[#0055FF] shadow-[4px_4px_0_0_#1a1a1a]"
+              />
+            </div>
+            <button 
+              onClick={() => handleUpdateSettings(appSettings.submission_status, appSettings.admin_message)}
+              disabled={updatingSettings}
+              className="bg-black text-white font-mono font-bold uppercase px-6 py-3 border-2 border-black shadow-[4px_4px_0_0_#1a1a1a] hover:bg-[#FFB800] hover:text-black transition-colors whitespace-nowrap"
+            >
+              {updatingSettings ? 'Saving...' : 'Update Message'}
+            </button>
           </div>
         </div>
 

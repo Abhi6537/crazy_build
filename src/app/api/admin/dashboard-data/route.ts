@@ -37,7 +37,18 @@ export async function GET(req: NextRequest) {
       .from("submissions")
       .select("team_id");
 
-    if (subError) throw subError;
+    if (subError && subError.code !== '42P01') throw subError;
+
+    // Fetch app settings
+    const { data: appSettings, error: settingsError } = await supabase
+      .from("app_settings")
+      .select("*")
+      .eq("id", 1)
+      .single();
+
+    if (settingsError && settingsError.code !== '42P01' && settingsError.code !== 'PGRST116') {
+      throw settingsError;
+    }
 
     // Assemble the payload
     const submissionSet = new Set(submissions.map((s) => s.team_id));
@@ -58,7 +69,11 @@ export async function GET(req: NextRequest) {
       members: membersByTeam[team.id] || [],
     }));
 
-    return NextResponse.json({ success: true, teams: enrichedTeams });
+    return NextResponse.json({ 
+      success: true, 
+      teams: enrichedTeams,
+      appSettings: appSettings || { submission_status: 'PRE_HACKATHON', admin_message: '' }
+    });
   } catch (err: any) {
     console.error("Dashboard data error:", err);
     return NextResponse.json(

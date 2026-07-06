@@ -50,6 +50,7 @@ interface Submission {
   youtube_link: string;
   screenshots: string[];
   logo_url: string;
+  is_draft?: boolean;
 }
 
 const emptySubmission: Submission = {
@@ -80,6 +81,8 @@ export default function SubmitPage() {
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [uploadProgressLogo, setUploadProgressLogo] = useState(0);
   const [timeLeft, setTimeLeft] = useState("");
+  const [appSettings, setAppSettings] = useState<{ submission_status: string, admin_message: string } | null>(null);
+  const [targetDeadline, setTargetDeadline] = useState<Date>(DEADLINE);
 
   // Auth form state
   const [teamName, setTeamName] = useState("");
@@ -91,25 +94,39 @@ export default function SubmitPage() {
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
-      const diff = DEADLINE.getTime() - now.getTime();
-      if (diff <= 0) {
+      const diff = targetDeadline.getTime() - now.getTime();
+      
+      if (appSettings?.submission_status === 'PRE_HACKATHON') {
         setIsLocked(true);
         setTimeLeft("LOCKED");
+        return;
+      }
+      
+      if (diff <= 0) {
+        if (appSettings?.submission_status !== 'OVERRIDE_EXTENDED') {
+          setIsLocked(true);
+          setTimeLeft("LOCKED");
+        } else {
+          setTimeLeft("EXTENDED");
+        }
         clearInterval(interval);
         return;
       }
+      
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((diff / (1000 * 60)) % 60);
       const seconds = Math.floor((diff / 1000) % 60);
-      if (days > 0) {
-        setTimeLeft(`${days}d ${hours}h ${minutes}m`);
-      } else {
-        setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
-      }
+      
+      let timeString = "";
+      if (days > 0) timeString += `${days}d `;
+      if (hours > 0 || days > 0) timeString += `${hours}h `;
+      timeString += `${minutes}m ${seconds}s`;
+      
+      setTimeLeft(timeString);
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [targetDeadline, appSettings]);
 
   // Check localStorage for session
   useEffect(() => {
@@ -144,11 +161,24 @@ export default function SubmitPage() {
           youtube_link: data.submission.youtube_link || "",
           screenshots: data.submission.screenshots || [],
           logo_url: data.submission.logo_url || "",
+          is_draft: data.submission.is_draft,
         });
         setHasExisting(true);
-        setViewMode(true);
+        if (!data.submission.is_draft) {
+          setViewMode(true);
+        }
       }
       setIsLocked(data.isLocked);
+      if (data.settings) {
+        setAppSettings(data.settings);
+        if (data.settings.submission_status === 'PRE_HACKATHON') {
+          setIsLocked(true);
+          setTimeLeft("LOCKED");
+        }
+      }
+      if (data.deadline) {
+        setTargetDeadline(new Date(data.deadline));
+      }
     } catch {
       // silent fail
     }
@@ -315,20 +345,20 @@ export default function SubmitPage() {
   };
 
   // Submit handler
-  const handleSubmit = async () => {
-    if (!session || isLocked) return;
+  const handleSubmit = async (isDraft: boolean = false) => {
+    if (!session) return;
     
-    // URL Validation
+    // URL Validation only if it's not a draft or if they provided a URL
     if (submission.github_link && !isValidUrl(submission.github_link)) {
       setMessage({ type: "error", text: "Please enter a valid URL for GitHub Repo (must include http:// or https://)." });
       return;
     }
     if (submission.live_demo_link && !isValidUrl(submission.live_demo_link)) {
-      setMessage({ type: "error", text: "Please enter a valid URL for Live Demo (must include http:// or https://)." });
+      setMessage({ type: "error", text: "Please enter a valid URL for Live Demo." });
       return;
     }
     if (submission.youtube_link && !isValidUrl(submission.youtube_link)) {
-      setMessage({ type: "error", text: "Please enter a valid URL for YouTube Video (must include http:// or https://)." });
+      setMessage({ type: "error", text: "Please enter a valid URL for YouTube Link." });
       return;
     }
 
@@ -351,6 +381,7 @@ export default function SubmitPage() {
           youtubeLink: submission.youtube_link,
           screenshots: submission.screenshots,
           logoUrl: submission.logo_url,
+          isDraft,
         }),
       });
       const data = await res.json();
@@ -389,6 +420,15 @@ export default function SubmitPage() {
             <span className="font-mono text-[10px] md:text-xs text-white/80 font-bold uppercase tracking-widest">Crazy Build 2026</span>
           </div>
         </div>
+
+        {/* Broadcast Banner */}
+        {appSettings?.admin_message && (
+          <div className="w-full bg-[#FFB800] border-b-2 border-black p-2 md:p-3 text-center">
+            <span className="font-display font-black text-[10px] md:text-sm uppercase tracking-widest text-[#0A1128]">
+              {appSettings.admin_message}
+            </span>
+          </div>
+        )}
 
         <div className="flex-1 flex items-center justify-center p-4">
           <motion.div
@@ -543,6 +583,15 @@ export default function SubmitPage() {
         </div>
       </div>
 
+      {/* Broadcast Banner */}
+      {appSettings?.admin_message && (
+        <div className="w-full bg-[#FFB800] border-b-2 border-black p-2 md:p-3 text-center">
+          <span className="font-display font-black text-[10px] md:text-sm uppercase tracking-widest text-[#0A1128]">
+            {appSettings.admin_message}
+          </span>
+        </div>
+      )}
+
       <div className="max-w-4xl mx-auto px-4 py-6 md:py-10">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-6 md:mb-8">
@@ -583,7 +632,9 @@ export default function SubmitPage() {
           >
             <AlertTriangle className="w-5 h-5 text-[#FF0033] shrink-0" />
             <p className="font-mono text-xs font-bold text-[#FF0033] uppercase tracking-wider">
-              Submissions are locked. The deadline has passed (July 8, 5:00 PM IST).
+              {appSettings?.submission_status === 'PRE_HACKATHON' 
+                ? "Submissions will open soon." 
+                : "Submissions are locked. The deadline has passed."}
             </p>
           </motion.div>
         )}
@@ -837,6 +888,11 @@ export default function SubmitPage() {
                       )}
                     </label>
                   )}
+                  {submission.screenshots.length === 0 && isLocked && (
+                    <div className="border-2 border-dashed border-black/20 aspect-video flex items-center justify-center">
+                      <span className="font-mono text-[10px] text-gray-300 uppercase">No screenshots</span>
+                    </div>
+                  )}
                 </div>
               </FieldBlock>
             </div>
@@ -884,13 +940,13 @@ export default function SubmitPage() {
           {!isLocked && (
             <div className="pt-2 pb-8 flex flex-col sm:flex-row gap-4">
               <button
-                onClick={handleSubmit}
+                onClick={() => handleSubmit(false)}
                 disabled={loading || uploadingScreenshot || uploadingLogo}
                 className="flex-1 bg-[#FF4D00] text-white font-display font-black uppercase tracking-widest text-sm md:text-base py-4 border-3 border-black shadow-[6px_6px_0_0_#1a1a1a] hover:shadow-[3px_3px_0_0_#1a1a1a] hover:translate-x-[3px] hover:translate-y-[3px] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {loading ? (
                   "Submitting..."
-                ) : hasExisting ? (
+                ) : hasExisting && !submission.is_draft ? (
                   <>
                     <Check className="w-4 h-4" /> Update Submission
                   </>
@@ -900,11 +956,20 @@ export default function SubmitPage() {
                   </>
                 )}
               </button>
-              {hasExisting && (
+              
+              <button
+                onClick={() => handleSubmit(true)}
+                disabled={loading || uploadingScreenshot || uploadingLogo}
+                className="flex-1 bg-white text-[#0A1128] font-display font-black uppercase tracking-widest text-sm md:text-base py-4 border-3 border-black shadow-[6px_6px_0_0_#1a1a1a] hover:shadow-[3px_3px_0_0_#1a1a1a] hover:translate-x-[3px] hover:translate-y-[3px] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {loading ? "Saving..." : "Save as Draft"}
+              </button>
+
+              {hasExisting && !submission.is_draft && (
                 <button
                   onClick={() => { setViewMode(true); setMessage(null); fetchSubmission(); }}
                   disabled={loading || uploadingScreenshot || uploadingLogo}
-                  className="sm:w-48 bg-white text-[#0A1128] font-display font-black uppercase tracking-widest text-sm py-4 border-3 border-black shadow-[6px_6px_0_0_#1a1a1a] hover:shadow-[3px_3px_0_0_#1a1a1a] hover:translate-x-[3px] hover:translate-y-[3px] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="sm:w-48 bg-gray-100 text-[#0A1128] font-display font-black uppercase tracking-widest text-sm py-4 border-3 border-black shadow-[6px_6px_0_0_#1a1a1a] hover:shadow-[3px_3px_0_0_#1a1a1a] hover:translate-x-[3px] hover:translate-y-[3px] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   Cancel
                 </button>
