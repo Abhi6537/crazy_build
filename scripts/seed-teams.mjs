@@ -7,7 +7,6 @@ const SERVICE_ROLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhY
 const teams = [
   { team_name: "SmartBits", email: "aritradutta6426@gmail.com" },
   { team_name: "Bingo_Tedemede", email: "sourjyabiswas03@gmail.com" },
-  { team_name: "Cyber Sages", email: "sreeja77428@gmail.com" },
   { team_name: "Hack horizons", email: "arpanbasak2211@gmail.com" },
   { team_name: "Rosogolla Rebels", email: "chatterjeedibyendu166@gmail.com" },
   { team_name: "SMOOTH OPERATORZ", email: "deyamit0044l@gmail.com" },
