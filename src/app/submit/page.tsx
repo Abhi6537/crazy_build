@@ -305,9 +305,33 @@ export default function SubmitPage() {
     }));
   };
 
+  const isValidUrl = (urlString: string) => {
+    try {
+      const url = new URL(urlString);
+      return url.protocol === "http:" || url.protocol === "https:";
+    } catch {
+      return false;
+    }
+  };
+
   // Submit handler
   const handleSubmit = async () => {
     if (!session || isLocked) return;
+    
+    // URL Validation
+    if (submission.github_link && !isValidUrl(submission.github_link)) {
+      setMessage({ type: "error", text: "Please enter a valid URL for GitHub Repo (must include http:// or https://)." });
+      return;
+    }
+    if (submission.live_demo_link && !isValidUrl(submission.live_demo_link)) {
+      setMessage({ type: "error", text: "Please enter a valid URL for Live Demo (must include http:// or https://)." });
+      return;
+    }
+    if (submission.youtube_link && !isValidUrl(submission.youtube_link)) {
+      setMessage({ type: "error", text: "Please enter a valid URL for YouTube Video (must include http:// or https://)." });
+      return;
+    }
+
     setLoading(true);
     setMessage(null);
     try {

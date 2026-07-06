@@ -158,13 +158,14 @@ export default function GalleryPage() {
                   ) : (
                     <div className="w-full h-full flex items-center justify-center font-mono text-xs text-gray-400 uppercase">No Image</div>
                   )}
-                  {/* Logo overlay */}
-                  {project.logo_url && (
-                    <div className="absolute -bottom-6 right-4 w-12 h-12 rounded-full border-2 border-black bg-white overflow-hidden shadow-sm z-10 p-1">
-                      <Image src={project.logo_url} alt="Logo" fill className="object-contain" unoptimized />
-                    </div>
-                  )}
                 </div>
+
+                {/* Logo overlay */}
+                {project.logo_url && (
+                  <div className="absolute top-[calc(56.25%-1.5rem)] right-4 w-12 h-12 rounded-xl border-2 border-black bg-white overflow-hidden shadow-[2px_2px_0_0_#1a1a1a] z-20">
+                    <Image src={project.logo_url} alt="Logo" fill className="object-cover" unoptimized />
+                  </div>
+                )}
 
                 {/* Content */}
                 <div className="p-5 flex flex-col flex-1">
