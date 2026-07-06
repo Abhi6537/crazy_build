@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Assemble the payload
-    const submissionSet = new Set(submissions.map((s) => s.team_id));
+    const submissionSet = new Set((submissions || []).map((s) => s.team_id));
     const membersByTeam: Record<string, any[]> = {};
     
     if (members) {
