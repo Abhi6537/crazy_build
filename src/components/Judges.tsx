@@ -48,13 +48,7 @@ export default function Judges() {
       img: "/asif.jpeg",
       linkedin: "https://www.linkedin.com/in/mdasif2003/"
     },
-    {
-      id: 7,
-      name: "Joydeb Roy",
-      role: "Full Stack Engineer @HEVA AI",
-      img: "/joydeb.jpeg",
-      linkedin: "https://www.linkedin.com/in/joydeb-roy-458a2b269/"
-    }
+   
   ];
 
   return (

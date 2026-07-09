@@ -50,6 +50,14 @@ export async function GET(req: NextRequest) {
       throw settingsError;
     }
 
+    // Fetch event photos
+    const { data: photos, error: photosError } = await supabase
+      .from("event_photos")
+      .select("id, url, created_at")
+      .order("created_at", { ascending: false });
+    
+    if (photosError && photosError.code !== '42P01') throw photosError;
+
     // Assemble the payload
     const submissionMap = (submissions || []).reduce((acc: any, sub: any) => {
       acc[sub.team_id] = sub;
@@ -77,6 +85,7 @@ export async function GET(req: NextRequest) {
       success: true, 
       teams: enrichedTeams,
       appSettings: appSettings || { submission_status: 'PRE_HACKATHON', admin_message: '' },
+      photos: photos || [],
       error: null,
     });
   } catch (err: any) {

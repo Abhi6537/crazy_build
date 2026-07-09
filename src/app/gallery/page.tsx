@@ -181,7 +181,7 @@ export default function GalleryPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
                 onClick={() => setSelectedProject(project)}
-                className={`group relative bg-white flex flex-col cursor-pointer transition-all hover:-translate-y-2 hover:shadow-[12px_12px_0_0_#1a1a1a] shadow-[8px_8px_0_0_#1a1a1a] ${project.is_winner ? 'border-4 border-[#00D084]' : 'border-4 border-black'}`}
+                className={`group relative bg-white flex flex-col h-full cursor-pointer transition-all hover:-translate-y-2 hover:shadow-[12px_12px_0_0_#1a1a1a] shadow-[8px_8px_0_0_#1a1a1a] ${project.is_winner ? 'border-4 border-[#00D084]' : 'border-4 border-black'}`}
               >
                 {/* Winner Badge */}
                 {project.is_winner && (
@@ -196,14 +196,16 @@ export default function GalleryPage() {
                   ) : (
                     <div className="w-full h-full flex items-center justify-center font-mono text-xs text-gray-400 uppercase">No Image</div>
                   )}
+                  
+                  {/* Logo overlay (Moved to top right to prevent overlapping text, styled to pop) */}
+                  {project.logo_url && (
+                    <div className="absolute top-4 right-4 w-14 h-14 rounded-full border-4 border-black bg-white p-0.5 shadow-[4px_4px_0_0_#FFB800] z-20 flex items-center justify-center">
+                      <div className="relative w-full h-full rounded-full overflow-hidden">
+                        <Image src={project.logo_url} alt="Logo" fill className="object-cover bg-white" unoptimized />
+                      </div>
+                    </div>
+                  )}
                 </div>
-
-                {/* Logo overlay */}
-                {project.logo_url && (
-                  <div className="absolute top-[calc(56.25%-1.5rem)] right-4 w-12 h-12 rounded-xl border-2 border-black bg-white overflow-hidden shadow-[2px_2px_0_0_#1a1a1a] z-20">
-                    <Image src={project.logo_url} alt="Logo" fill className="object-cover" unoptimized />
-                  </div>
-                )}
 
                 {/* Content */}
                 <div className="p-5 flex flex-col flex-1">
@@ -217,9 +219,9 @@ export default function GalleryPage() {
                     <p className="font-sans text-sm text-gray-700 line-clamp-2 leading-snug">{project.short_description}</p>
                   </div>
 
-                  <div className="mt-auto pt-4 border-t-2 border-black/10 flex flex-wrap gap-1.5">
+                  <div className="mt-auto pt-4 border-t-2 border-black/10 flex flex-wrap gap-1.5 overflow-hidden">
                     {project.tech_stack.split(',').slice(0, 3).map((tech, i) => tech.trim() && (
-                      <span key={i} className="font-mono text-[8px] font-bold uppercase tracking-wider bg-[#0055FF] text-white px-2 py-0.5 border border-black">
+                      <span key={i} title={tech.trim()} className="font-mono text-[8px] font-bold uppercase tracking-wider bg-[#0055FF] text-white px-2 py-0.5 border border-black max-w-full truncate inline-block">
                         {tech.trim()}
                       </span>
                     ))}

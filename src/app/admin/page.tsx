@@ -2,8 +2,14 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, CheckCircle2, Circle, Utensils, Download, LogIn, ChevronRight, Users, Trophy, Upload } from "lucide-react";
+import { Search, CheckCircle2, Circle, Utensils, Download, LogIn, ChevronRight, Users, Trophy, Upload, Trash2 } from "lucide-react";
 import Link from "next/link";
+
+interface Photo {
+  id: string;
+  url: string;
+  created_at: string;
+}
 
 interface Member {
   id: string;
@@ -34,9 +40,11 @@ export default function AdminDashboard() {
   
   const [teams, setTeams] = useState<Team[]>([]);
   const [appSettings, setAppSettings] = useState({ submission_status: 'PRE_HACKATHON', admin_message: '' });
+  const [photos, setPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [updatingSettings, setUpdatingSettings] = useState(false);
+  const [uploadingPhotos, setUploadingPhotos] = useState(false);
 
   const checkAuthAndFetchData = async () => {
     setLoading(true);
@@ -48,6 +56,7 @@ export default function AdminDashboard() {
         const data = await res.json();
         setTeams(data.teams || []);
         if (data.appSettings) setAppSettings(data.appSettings);
+        if (data.photos) setPhotos(data.photos);
         setIsAuthenticated(true);
       }
     } catch (err) {
@@ -72,6 +81,26 @@ export default function AdminDashboard() {
       console.error("Failed to update settings", err);
     } finally {
       setUpdatingSettings(false);
+    }
+  };
+
+  const handleDeletePhoto = async (id: string, url: string) => {
+    if (!confirm("Are you sure you want to delete this photo? This cannot be undone.")) return;
+    
+    try {
+      const res = await fetch("/api/admin/delete-photo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, url }),
+      });
+      
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      
+      setPhotos(photos.filter(p => p.id !== id));
+    } catch (err: any) {
+      console.error(err);
+      alert("Failed to delete photo: " + err.message);
     }
   };
 
@@ -420,49 +449,83 @@ export default function AdminDashboard() {
         <div className="mb-8 relative z-10 bg-white border-4 border-black shadow-[8px_8px_0_0_#1a1a1a] p-6">
           <h2 className="font-display font-black text-2xl uppercase mb-4 text-[#0A1128]">Event Memories</h2>
           <p className="font-mono text-sm text-gray-500 mb-4">Upload photos from the hackathon. They will be displayed in the Memories section on the home page.</p>
-          <div className="flex flex-col sm:flex-row gap-4 items-center">
-            <label className="flex-1 w-full border-2 border-dashed border-black bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer p-4 flex flex-col items-center justify-center">
+          <div className="flex flex-col gap-6">
+            <label className={`w-full border-2 border-dashed border-black bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer p-6 flex flex-col items-center justify-center ${uploadingPhotos ? 'opacity-50 pointer-events-none' : ''}`}>
               <input 
                 type="file" 
                 accept="image/*" 
+                multiple
                 className="hidden" 
                 onChange={async (e) => {
-                  const file = e.target.files?.[0];
-                  if (!file) return;
+                  const files = e.target.files;
+                  if (!files || files.length === 0) return;
+                  
+                  setUploadingPhotos(true);
+                  let successCount = 0;
                   
                   try {
-                    const formData = new FormData();
-                    formData.append("file", file);
-                    formData.append("type", "memory");
-                    
-                    const uploadRes = await fetch("/api/upload", {
-                      method: "POST",
-                      body: formData,
-                    });
-                    
-                    const uploadData = await uploadRes.json();
-                    if (uploadData.error) throw new Error(uploadData.error);
-                    
-                    const dbRes = await fetch("/api/admin/upload-photo", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ url: uploadData.url }),
-                    });
-                    
-                    const dbData = await dbRes.json();
-                    if (dbData.error) throw new Error(dbData.error);
-                    
-                    alert("Photo uploaded successfully!");
+                    for (let i = 0; i < files.length; i++) {
+                      const file = files[i];
+                      const formData = new FormData();
+                      formData.append("file", file);
+                      formData.append("type", "memory");
+                      
+                      const uploadRes = await fetch("/api/upload", {
+                        method: "POST",
+                        body: formData,
+                      });
+                      
+                      const uploadData = await uploadRes.json();
+                      if (uploadData.error) throw new Error(uploadData.error);
+                      
+                      const dbRes = await fetch("/api/admin/upload-photo", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ url: uploadData.url }),
+                      });
+                      
+                      const dbData = await dbRes.json();
+                      if (dbData.error) throw new Error(dbData.error);
+                      
+                      successCount++;
+                    }
+                    alert(`Successfully uploaded ${successCount} photos!`);
+                    checkAuthAndFetchData(); // Refresh the list
                   } catch (err: any) {
                     console.error(err);
-                    alert("Failed to upload photo: " + err.message);
+                    alert(`Failed after uploading ${successCount} photos. Error: ` + err.message);
+                  } finally {
+                    setUploadingPhotos(false);
+                    // Clear the input
+                    e.target.value = '';
                   }
                 }}
               />
               <span className="font-mono font-bold uppercase tracking-widest text-[#0055FF] flex items-center gap-2">
-                <Upload className="w-5 h-5" /> Select Photo to Upload
+                <Upload className="w-6 h-6" /> {uploadingPhotos ? 'Uploading...' : 'Select Photos to Upload'}
               </span>
+              <span className="text-xs text-gray-400 mt-2">You can select multiple photos at once</span>
             </label>
+
+            {photos.length > 0 && (
+              <div>
+                <h3 className="font-display font-black text-lg uppercase mb-3 text-[#0A1128]">Uploaded Photos ({photos.length})</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                  {photos.map((photo) => (
+                    <div key={photo.id} className="relative aspect-square border-2 border-black group bg-gray-100">
+                      <img src={photo.url} alt="Memory" className="w-full h-full object-cover" />
+                      <button 
+                        onClick={() => handleDeletePhoto(photo.id, photo.url)}
+                        className="absolute top-2 right-2 p-1.5 bg-[#FF0033] text-white border-2 border-black opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black"
+                        title="Delete Photo"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
