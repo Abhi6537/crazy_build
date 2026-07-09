@@ -21,6 +21,9 @@ interface Project {
   screenshots: string[];
   logo_url: string;
   team_name: string;
+  is_winner?: boolean;
+  winner_position?: string;
+  winner_message?: string;
 }
 
 export default function GalleryPage() {
@@ -37,9 +40,38 @@ export default function GalleryPage() {
         const res = await fetch("/api/gallery", { cache: 'no-store' });
         const data = await res.json();
         if (data.submissions) {
-          // Randomize order
-          const shuffled = data.submissions.sort(() => Math.random() - 0.5);
-          setProjects(shuffled);
+          // First, randomize the order
+          let shuffled = [...data.submissions];
+          for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+          }
+
+          // Then stably sort winners to the front
+          const sorted = shuffled.sort((a: Project, b: Project) => {
+            // Keep relative randomized order for non-winners
+            if (!a.is_winner && !b.is_winner) return 0;
+            
+            // Winners come before non-winners
+            if (a.is_winner && !b.is_winner) return -1;
+            if (!a.is_winner && b.is_winner) return 1;
+            
+            // If both are winners, extract the number from position (e.g. "1st" -> 1)
+            const aNum = parseInt(a.winner_position || "");
+            const bNum = parseInt(b.winner_position || "");
+            const aVal = isNaN(aNum) ? 99 : aNum;
+            const bVal = isNaN(bNum) ? 99 : bNum;
+
+            if (aVal !== bVal) {
+              return aVal - bVal;
+            }
+            
+            // If both don't start with a number (like "Best Boy"), sort alphabetically
+            const aStr = (a.winner_position || "").toLowerCase();
+            const bStr = (b.winner_position || "").toLowerCase();
+            return aStr.localeCompare(bStr);
+          });
+          setProjects(sorted);
         }
       } catch (err) {
         console.error("Failed to load gallery", err);
@@ -149,8 +181,14 @@ export default function GalleryPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
                 onClick={() => setSelectedProject(project)}
-                className="group relative bg-white border-4 border-black flex flex-col cursor-pointer transition-all hover:-translate-y-2 hover:shadow-[12px_12px_0_0_#1a1a1a] shadow-[8px_8px_0_0_#1a1a1a]"
+                className={`group relative bg-white flex flex-col cursor-pointer transition-all hover:-translate-y-2 hover:shadow-[12px_12px_0_0_#1a1a1a] shadow-[8px_8px_0_0_#1a1a1a] ${project.is_winner ? 'border-4 border-[#00D084]' : 'border-4 border-black'}`}
               >
+                {/* Winner Badge */}
+                {project.is_winner && (
+                  <div className="absolute -top-4 -left-4 z-30 bg-[#00D084] border-2 border-black px-3 py-1 text-black font-display font-black text-sm uppercase tracking-wider transform -rotate-3 shadow-[4px_4px_0_0_#1a1a1a] flex items-center gap-1">
+                    <span>🏆 {project.winner_position || 'Winner'}</span>
+                  </div>
+                )}
                 {/* Cover Image */}
                 <div className="relative w-full aspect-video border-b-4 border-black bg-gray-100 overflow-hidden">
                   {project.screenshots?.[0] ? (
@@ -236,8 +274,24 @@ export default function GalleryPage() {
                   <div className="flex-1">
                     <h2 className="font-display font-black text-4xl md:text-5xl text-[#0A1128] uppercase leading-none mb-2">{selectedProject.project_title}</h2>
                     <p className="font-mono text-sm md:text-base font-bold text-gray-500 uppercase tracking-widest mb-4">By Team {selectedProject.team_name}</p>
-                    <div className="inline-block bg-[#FFB800] border-2 border-black px-4 py-1.5 shadow-[2px_2px_0_0_#1a1a1a]">
-                      <span className="font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest text-[#0A1128]">Problem: {selectedProject.problem_statement}</span>
+                    
+                    {selectedProject.is_winner && (
+                      <div className="mb-4 inline-flex flex-col gap-1 bg-[#00D084]/10 border-2 border-[#00D084] p-3">
+                        <span className="font-display font-black text-[#00D084] text-xl uppercase flex items-center gap-2">
+                          <span>🏆</span> {selectedProject.winner_position || 'Winner'}
+                        </span>
+                        {selectedProject.winner_message && (
+                          <span className="font-mono text-xs font-bold text-black uppercase tracking-wider">
+                            "{selectedProject.winner_message}"
+                          </span>
+                        )}
+                      </div>
+                    )}
+                    
+                    <div className="flex">
+                      <div className="inline-block bg-[#FFB800] border-2 border-black px-4 py-1.5 shadow-[2px_2px_0_0_#1a1a1a]">
+                        <span className="font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest text-[#0A1128]">Problem: {selectedProject.problem_statement}</span>
+                      </div>
                     </div>
                   </div>
                 </div>

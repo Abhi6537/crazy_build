@@ -16,6 +16,7 @@ import {
   AlertTriangle,
   Clock,
   Pencil,
+  Trophy,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -628,13 +629,17 @@ export default function SubmitPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="mb-6 bg-[#FF0033]/10 border-2 border-[#FF0033] p-4 flex items-center gap-3"
+            className={`mb-6 border-2 p-4 flex items-center gap-3 ${appSettings?.submission_status === 'PRE_HACKATHON' ? 'bg-[#FF0033]/10 border-[#FF0033]' : 'bg-[#0055FF]/10 border-[#0055FF]'}`}
           >
-            <AlertTriangle className="w-5 h-5 text-[#FF0033] shrink-0" />
-            <p className="font-mono text-xs font-bold text-[#FF0033] uppercase tracking-wider">
+            {appSettings?.submission_status === 'PRE_HACKATHON' ? (
+              <AlertTriangle className="w-5 h-5 text-[#FF0033] shrink-0" />
+            ) : (
+              <Trophy className="w-5 h-5 text-[#0055FF] shrink-0" />
+            )}
+            <p className={`font-mono text-xs font-bold uppercase tracking-wider ${appSettings?.submission_status === 'PRE_HACKATHON' ? 'text-[#FF0033]' : 'text-[#0055FF]'}`}>
               {appSettings?.submission_status === 'PRE_HACKATHON' 
                 ? "Submissions will open soon." 
-                : "Submissions are locked. The deadline has passed."}
+                : "Hackathon Concluded! Your submission is now read-only."}
             </p>
           </motion.div>
         )}

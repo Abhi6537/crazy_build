@@ -7,6 +7,8 @@ import Themes from "@/components/Themes";
 import Judges from "@/components/Judges";
 import Mentors from "@/components/Mentors";
 import Team from "@/components/Team";
+import Memories from "@/components/Memories";
+import Shoutout from "@/components/Shoutout";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -22,6 +24,8 @@ export default function Home() {
         <Judges />
         <Mentors />
         <Team />
+        <Memories />
+        <Shoutout />
       </main>
       <Footer />
     </>

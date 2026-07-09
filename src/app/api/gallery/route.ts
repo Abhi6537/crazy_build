@@ -24,6 +24,9 @@ export async function GET() {
         screenshots,
         logo_url,
         team_id,
+        is_winner,
+        winner_position,
+        winner_message,
         teams ( team_name )
       `)
       .order("created_at", { ascending: false });

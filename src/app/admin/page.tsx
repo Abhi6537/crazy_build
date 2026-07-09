@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, CheckCircle2, Circle, Utensils, Download, LogIn, ChevronRight, Users } from "lucide-react";
+import { Search, CheckCircle2, Circle, Utensils, Download, LogIn, ChevronRight, Users, Trophy, Upload } from "lucide-react";
 import Link from "next/link";
 
 interface Member {
@@ -20,6 +20,11 @@ interface Team {
   invite_code: string;
   has_submitted: boolean;
   members: Member[];
+  submission?: {
+    is_winner: boolean;
+    winner_position: string;
+    winner_message: string;
+  } | null;
 }
 
 export default function AdminDashboard() {
@@ -142,6 +147,45 @@ export default function AdminDashboard() {
       });
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleMarkWinner = async (teamId: string) => {
+    const isWinner = window.confirm("Mark this team as a winner? (Cancel to remove winner status)");
+    let position = "";
+    let message = "";
+
+    if (isWinner) {
+      position = window.prompt("Enter position (e.g., '1st Place', 'Best UI'):", "1st Place") || "";
+      if (!position) return; // cancelled
+      message = window.prompt("Enter winner message:", "Incredible innovation and design!") || "";
+    }
+
+    // Optimistic update
+    setTeams((prev) => prev.map(t => {
+      if (t.id === teamId) {
+        return {
+          ...t,
+          submission: t.submission ? {
+            ...t.submission,
+            is_winner: isWinner,
+            winner_position: position,
+            winner_message: message
+          } : null
+        };
+      }
+      return t;
+    }));
+
+    try {
+      await fetch("/api/admin/update-winner", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ team_id: teamId, is_winner: isWinner, winner_position: position, winner_message: message })
+      });
+    } catch (err) {
+      console.error(err);
+      alert("Failed to update winner status");
     }
   };
 
@@ -372,6 +416,56 @@ export default function AdminDashboard() {
           </div>
         </div>
 
+        {/* Memories / Photo Uploader */}
+        <div className="mb-8 relative z-10 bg-white border-4 border-black shadow-[8px_8px_0_0_#1a1a1a] p-6">
+          <h2 className="font-display font-black text-2xl uppercase mb-4 text-[#0A1128]">Event Memories</h2>
+          <p className="font-mono text-sm text-gray-500 mb-4">Upload photos from the hackathon. They will be displayed in the Memories section on the home page.</p>
+          <div className="flex flex-col sm:flex-row gap-4 items-center">
+            <label className="flex-1 w-full border-2 border-dashed border-black bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer p-4 flex flex-col items-center justify-center">
+              <input 
+                type="file" 
+                accept="image/*" 
+                className="hidden" 
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  
+                  try {
+                    const formData = new FormData();
+                    formData.append("file", file);
+                    formData.append("type", "memory");
+                    
+                    const uploadRes = await fetch("/api/upload", {
+                      method: "POST",
+                      body: formData,
+                    });
+                    
+                    const uploadData = await uploadRes.json();
+                    if (uploadData.error) throw new Error(uploadData.error);
+                    
+                    const dbRes = await fetch("/api/admin/upload-photo", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ url: uploadData.url }),
+                    });
+                    
+                    const dbData = await dbRes.json();
+                    if (dbData.error) throw new Error(dbData.error);
+                    
+                    alert("Photo uploaded successfully!");
+                  } catch (err: any) {
+                    console.error(err);
+                    alert("Failed to upload photo: " + err.message);
+                  }
+                }}
+              />
+              <span className="font-mono font-bold uppercase tracking-widest text-[#0055FF] flex items-center gap-2">
+                <Upload className="w-5 h-5" /> Select Photo to Upload
+              </span>
+            </label>
+          </div>
+        </div>
+
         {/* Search Bar */}
         <div className="mb-8 relative z-10">
           <div className="relative bg-white border-4 border-black flex items-center p-2 md:p-3 shadow-[8px_8px_0_0_#1a1a1a]">
@@ -422,15 +516,28 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                   
-                  {/* Quick Action: Check in entire team */}
-                  {team.members.length > 0 && team.members.some(m => !m.has_checked_in) && (
-                    <button 
-                      onClick={() => handleCheckInAll(team.id)}
-                      className="w-full md:w-auto font-mono text-xs font-bold uppercase tracking-wider bg-black text-white px-4 py-2 hover:bg-[#FF4D00] transition-colors border-2 border-black"
-                    >
-                      Check In Entire Team
-                    </button>
-                  )}
+                  <div className="flex flex-col gap-2 w-full md:w-auto">
+                    {/* Quick Action: Check in entire team */}
+                    {team.members.length > 0 && team.members.some(m => !m.has_checked_in) && (
+                      <button 
+                        onClick={() => handleCheckInAll(team.id)}
+                        className="w-full font-mono text-xs font-bold uppercase tracking-wider bg-black text-white px-4 py-2 hover:bg-[#FF4D00] transition-colors border-2 border-black"
+                      >
+                        Check In Entire Team
+                      </button>
+                    )}
+                    
+                    {/* Mark as Winner (Only if submitted) */}
+                    {team.has_submitted && (
+                      <button 
+                        onClick={() => handleMarkWinner(team.id)}
+                        className={`w-full font-mono text-xs font-bold uppercase tracking-wider px-4 py-2 transition-colors border-2 border-black flex items-center justify-center gap-1 ${team.submission?.is_winner ? 'bg-[#00D084] text-black hover:bg-red-500 hover:text-white' : 'bg-[#FFB800] text-black hover:bg-[#FFD700]'}`}
+                      >
+                        <Trophy className="w-3.5 h-3.5" />
+                        {team.submission?.is_winner ? 'Revoke Winner' : 'Mark as Winner'}
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 {/* Team Members List */}

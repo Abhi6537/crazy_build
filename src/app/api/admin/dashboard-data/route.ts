@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
     // Fetch submissions
     const { data: submissions, error: subError } = await supabase
       .from("submissions")
-      .select("team_id");
+      .select("team_id, is_winner, winner_position, winner_message");
 
     if (subError && subError.code !== '42P01') throw subError;
 
@@ -51,7 +51,10 @@ export async function GET(req: NextRequest) {
     }
 
     // Assemble the payload
-    const submissionSet = new Set((submissions || []).map((s) => s.team_id));
+    const submissionMap = (submissions || []).reduce((acc: any, sub: any) => {
+      acc[sub.team_id] = sub;
+      return acc;
+    }, {});
     const membersByTeam: Record<string, any[]> = {};
     
     if (members) {
@@ -63,16 +66,18 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    const enrichedTeams = teams.map((team) => ({
-      ...team,
-      has_submitted: submissionSet.has(team.id),
-      members: membersByTeam[team.id] || [],
+    const enrichedTeams = teams.map((t) => ({
+      ...t,
+      members: membersByTeam[t.id] || [],
+      submission: submissionMap[t.id] || null,
+      has_submitted: !!submissionMap[t.id],
     }));
 
     return NextResponse.json({ 
       success: true, 
       teams: enrichedTeams,
-      appSettings: appSettings || { submission_status: 'PRE_HACKATHON', admin_message: '' }
+      appSettings: appSettings || { submission_status: 'PRE_HACKATHON', admin_message: '' },
+      error: null,
     });
   } catch (err: any) {
     console.error("Dashboard data error:", err);

@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import Countdown from "./Countdown";
+import Link from "next/link";
+import { Trophy, Users, Clock } from "lucide-react";
 
 export default function Hero() {
-  const [showPopup, setShowPopup] = useState(false);
   return (
     <section className="relative min-h-[85vh] flex flex-col justify-center items-center overflow-hidden pt-8 pb-16">
       {/* Floating SVGs */}
@@ -124,12 +123,24 @@ export default function Hero() {
 
         {/* Right Column: Text, Buttons, "Join the chaos" */}
         <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left mt-8 md:mt-0">
-          <Countdown />
+          
+          {/* Concluded Badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mb-6 flex flex-col sm:flex-row gap-3 md:gap-4 items-center justify-center md:justify-start"
+          >
+            <div className="inline-flex items-center gap-2 bg-[#00D084] text-black px-4 py-2 border-2 border-black shadow-[4px_4px_0_0_#1a1a1a] transform -rotate-1">
+              <Trophy className="w-5 h-5 fill-current" />
+              <span className="font-display font-black uppercase tracking-widest text-sm md:text-base">Hackathon Concluded</span>
+            </div>
+          </motion.div>
+
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-sm md:text-2xl font-sans max-w-xl font-medium leading-snug md:leading-relaxed mt-2 md:-mt-8 relative z-10"
+            className="text-sm md:text-xl font-sans max-w-xl font-medium leading-snug md:leading-relaxed relative z-10"
           >
             <div className="mb-2 md:mb-4">
               <span className="sketch-underline pb-1 md:pb-4">From whiteboard to working Demo</span>
@@ -138,7 +149,28 @@ export default function Hero() {
               <span className="bg-[#FF4D00] text-white px-1.5 md:px-2 py-0.5 font-bold transform -rotate-1 inline-block shadow-sm">
                 CRAZY-BUILD
               </span>
-              {" "}compresses the full product cycle into one electric build sprint.
+              {" "}compressed the full product cycle into one electric build sprint. The results are in.
+            </div>
+          </motion.div>
+
+          {/* Stats Bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="mt-6 flex flex-wrap justify-center md:justify-start gap-4 md:gap-6 font-mono text-[10px] md:text-sm font-bold uppercase tracking-widest text-[#0A1128]"
+          >
+            <div className="flex items-center gap-1.5 bg-white border-2 border-black px-3 py-1.5 shadow-[2px_2px_0_0_#1a1a1a]">
+              <Users className="w-4 h-4 text-[#FF4D00]" />
+              <span>23 Teams</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-white border-2 border-black px-3 py-1.5 shadow-[2px_2px_0_0_#1a1a1a]">
+              <Users className="w-4 h-4 text-[#0055FF]" />
+              <span>85+ Builders</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-white border-2 border-black px-3 py-1.5 shadow-[2px_2px_0_0_#1a1a1a]">
+              <Clock className="w-4 h-4 text-[#FFB800]" />
+              <span>8 Hours of Code</span>
             </div>
           </motion.div>
 
@@ -146,9 +178,9 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
-            className="mt-4 md:mt-10 flex flex-col items-center md:items-start transform rotate-3 md:ml-6"
+            className="mt-6 md:mt-10 flex flex-col items-center md:items-start transform rotate-3 md:ml-6"
           >
-            <div className="font-handwriting text-2xl md:text-4xl text-[#FF0033] whitespace-nowrap">Join the chaos!</div>
+            <div className="font-handwriting text-2xl md:text-4xl text-[#FF0033] whitespace-nowrap">Witness the chaos!</div>
             <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FF0033" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform rotate-[90deg] -mt-2 ml-12 md:w-10 md:h-10 hidden md:block">
               <path d="M5 12h14"></path>
               <path d="m12 5 7 7-7 7"></path>
@@ -161,75 +193,21 @@ export default function Hero() {
             transition={{ delay: 0.8, duration: 0.5 }}
             className="mt-2 flex flex-col sm:flex-row gap-4 md:gap-8 w-full md:w-auto px-4 md:px-0"
           >
-            <button 
-              onClick={(e) => {
-                e.preventDefault();
-                setShowPopup(true);
-              }}
+            <Link 
+              href="/gallery"
               className="w-full sm:w-auto px-4 md:px-8 py-3 md:py-4 bg-[#FF4D00] text-white font-display font-bold text-base md:text-lg uppercase tracking-wider hover:scale-105 transition-all shadow-[4px_4px_0_0_#1a1a1a] md:shadow-[6px_6px_0_0_#1a1a1a] border-2 border-black z-10 text-center block"
             >
-              Registration Closed
-            </button>
-            <a 
+              View Project Gallery
+            </Link>
+            <Link 
               href="/submit"
-              className="w-full sm:w-auto px-4 md:px-8 py-3 md:py-4 bg-[#0055FF] text-white font-display font-bold text-base md:text-lg uppercase tracking-wider hover:scale-105 transition-all shadow-[4px_4px_0_0_#1a1a1a] md:shadow-[6px_6px_0_0_#1a1a1a] border-2 border-black z-10 text-center block"
+              className="w-full sm:w-auto px-4 md:px-8 py-3 md:py-4 bg-white text-[#0A1128] font-display font-bold text-base md:text-lg uppercase tracking-wider hover:scale-105 transition-all shadow-[4px_4px_0_0_#1a1a1a] md:shadow-[6px_6px_0_0_#1a1a1a] border-2 border-black z-10 text-center block"
             >
-              Submit Project →
-            </a>
+              Portal Login →
+            </Link>
           </motion.div>
         </div>
       </div>
-
-      {/* Brutalist Modal */}
-      <AnimatePresence>
-        {showPopup && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-            onClick={() => setShowPopup(false)}
-          >
-            <motion.div 
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              onClick={(e) => e.stopPropagation()}
-              className="bg-[#FFB800] border-4 border-black p-6 md:p-10 shadow-[12px_12px_0_0_#1a1a1a] max-w-lg w-full relative"
-              style={{ backgroundImage: 'var(--paper-grain)' }}
-            >
-              {/* Close Button */}
-              <button 
-                onClick={() => setShowPopup(false)}
-                className="absolute -top-4 -right-4 w-10 h-10 bg-[#FF0033] border-2 border-black flex items-center justify-center text-white font-black text-xl shadow-[4px_4px_0_0_#1a1a1a] hover:translate-x-1 hover:translate-y-1 hover:shadow-[0px_0px_0_0_#1a1a1a] transition-all z-10"
-              >
-                ×
-              </button>
-              
-              {/* Tape */}
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-8 bg-[#0055FF]/80 -rotate-2 mix-blend-multiply border border-black/10 z-0"></div>
-
-              <div className="text-center relative z-10 pt-4">
-                <h2 className="font-display font-black text-3xl md:text-5xl uppercase tracking-widest text-[#0A1128] mb-4 leading-none">
-                  Too Late!
-                </h2>
-                <div className="font-sans font-bold text-lg md:text-xl mb-6 bg-white border-2 border-black p-3 transform -rotate-2 inline-block shadow-[4px_4px_0_0_#1a1a1a]">
-                  Registration is Closed.
-                </div>
-                <p className="font-sans text-sm md:text-base font-medium text-black/80 max-w-sm mx-auto">
-                  The arena is fully packed and the chaos has already begun! We can't accept any more registrations this time. Catch you in the next sprint.
-                </p>
-                <button 
-                  onClick={() => setShowPopup(false)}
-                  className="mt-8 px-8 py-3 bg-white border-2 border-black font-display font-bold uppercase tracking-wider shadow-[4px_4px_0_0_#1a1a1a] hover:translate-x-1 hover:translate-y-1 hover:shadow-[0px_0px_0_0_#1a1a1a] transition-all"
-                >
-                  Got It
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }

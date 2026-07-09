@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     const teamId = formData.get("teamId") as string;
     const type = formData.get("type") as string; // "screenshot" or "logo"
 
-    if (!file || !teamId) {
+    if (!file || (type !== "memory" && !teamId)) {
       return NextResponse.json(
         { error: "File and teamId are required." },
         { status: 400 }
@@ -37,8 +37,10 @@ export async function POST(req: NextRequest) {
     // Generate unique filename
     const ext = file.name.split(".").pop();
     const timestamp = Date.now();
-    const folder = type === "logo" ? "logos" : "screenshots";
-    const filePath = `${teamId}/${folder}/${timestamp}.${ext}`;
+    let folder = "screenshots";
+    if (type === "logo") folder = "logos";
+    else if (type === "memory") folder = "memories";
+    const filePath = type === "memory" ? `admin/${folder}/${timestamp}.${ext}` : `${teamId}/${folder}/${timestamp}.${ext}`;
 
     // Upload to Supabase Storage
     const arrayBuffer = await file.arrayBuffer();
