@@ -103,7 +103,7 @@ export default function Mentors() {
         </motion.div>
 
         {/* Mentors Grid / Carousel */}
-        <div className="w-full flex md:grid md:grid-cols-10 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory gap-3 md:gap-x-4 lg:gap-x-5 gap-y-5 lg:gap-y-6 max-w-5xl mx-auto pb-6 md:pb-0 relative z-10 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden px-2 md:px-0">
+        <div className="w-full flex md:grid md:grid-cols-8 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory gap-3 md:gap-x-4 lg:gap-x-5 gap-y-5 lg:gap-y-6 max-w-4xl mx-auto pb-6 md:pb-0 relative z-10 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden px-2 md:px-0">
           {mentors.map((mentor, idx) => (
             <motion.div
               key={mentor.id}
@@ -111,7 +111,7 @@ export default function Mentors() {
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, type: "spring", stiffness: 120 }}
-              className={`col-span-2 ${idx === 5 ? 'md:col-start-2' : ''} bg-[#f4f4f0] border-2 md:border-[3px] border-black shadow-[3px_3px_0_0_#1a1a1a] md:shadow-[4px_4px_0_0_#1a1a1a] hover:shadow-[4px_4px_0_0_#0055FF] md:hover:shadow-[6px_6px_0_0_#0055FF] hover:-translate-y-1 hover:-translate-x-1 transition-all group flex flex-col overflow-hidden relative shrink-0 snap-center w-[140px] md:w-auto`}
+              className={`col-span-2 ${idx === 4 ? 'md:col-start-2' : ''} bg-[#f4f4f0] border-2 md:border-[3px] border-black shadow-[3px_3px_0_0_#1a1a1a] md:shadow-[4px_4px_0_0_#1a1a1a] hover:shadow-[4px_4px_0_0_#0055FF] md:hover:shadow-[6px_6px_0_0_#0055FF] hover:-translate-y-1 hover:-translate-x-1 transition-all group flex flex-col overflow-hidden relative shrink-0 snap-center w-[140px] md:w-auto`}
             >
               {/* LinkedIn Link Overlay */}
               {mentor.linkedin && (

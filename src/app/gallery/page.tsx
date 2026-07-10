@@ -32,6 +32,8 @@ export default function GalleryPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [problemFilter, setProblemFilter] = useState("All");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [activeScreenshot, setActiveScreenshot] = useState<string | null>(null);
+  const [fullScreenImage, setFullScreenImage] = useState<string | null>(null);
 
   // Fetch projects
   useEffect(() => {
@@ -180,7 +182,10 @@ export default function GalleryPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.05 }}
-                onClick={() => setSelectedProject(project)}
+                onClick={() => {
+                  setSelectedProject(project);
+                  setActiveScreenshot(project.screenshots?.[0] || null);
+                }}
                 className={`group relative bg-white flex flex-col h-full cursor-pointer transition-all hover:-translate-y-2 hover:shadow-[12px_12px_0_0_#1a1a1a] shadow-[8px_8px_0_0_#1a1a1a] ${project.is_winner ? 'border-4 border-[#00D084]' : 'border-4 border-black'}`}
               >
                 {/* Winner Badge */}
@@ -302,10 +307,34 @@ export default function GalleryPage() {
                   {/* Left Column - Main Details */}
                   <div className="lg:col-span-2 space-y-8">
                     {selectedProject.screenshots?.length > 0 && (
-                      <div className="border-4 border-black bg-black p-1 shadow-[6px_6px_0_0_#1a1a1a]">
-                        <div className="relative w-full aspect-video">
-                          <Image src={selectedProject.screenshots[0]} alt="Preview" fill className="object-cover" unoptimized />
+                      <div className="space-y-4">
+                        {/* Main Screenshot Container */}
+                        <div className="border-4 border-black bg-black p-1 shadow-[6px_6px_0_0_#1a1a1a]">
+                          <button 
+                            onClick={() => setFullScreenImage(activeScreenshot || selectedProject.screenshots[0])}
+                            className="relative w-full aspect-video block cursor-zoom-in group"
+                          >
+                            <Image src={activeScreenshot || selectedProject.screenshots[0]} alt="Preview" fill className="object-contain bg-black" unoptimized />
+                            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                              <span className="text-white font-mono font-bold uppercase tracking-widest border-2 border-white px-4 py-2">Click to Enlarge</span>
+                            </div>
+                          </button>
                         </div>
+                        
+                        {/* Thumbnails on main background */}
+                        {selectedProject.screenshots?.length > 1 && (
+                          <div className="flex gap-3 overflow-x-auto pb-2 custom-scrollbar">
+                            {selectedProject.screenshots.map((url, i) => (
+                              <button
+                                key={i}
+                                onClick={() => setActiveScreenshot(url)}
+                                className={`relative w-24 md:w-32 aspect-video shrink-0 border-[3px] shadow-[3px_3px_0_0_#1a1a1a] ${activeScreenshot === url ? 'border-[#FF4D00] shadow-[#FF4D00]' : 'border-black hover:border-gray-600'} bg-white transition-all hover:-translate-y-1`}
+                              >
+                                <Image src={url} alt={`Screenshot ${i + 1}`} fill className="object-cover p-0.5" unoptimized />
+                              </button>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     )}
                     
@@ -325,18 +354,6 @@ export default function GalleryPage() {
                       </div>
                     </div>
                     
-                    {selectedProject.screenshots?.length > 1 && (
-                      <div>
-                        <h3 className="font-display font-black text-xl uppercase tracking-wider text-[#0A1128] mb-3">More Screenshots</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          {selectedProject.screenshots.slice(1).map((url, i) => (
-                            <div key={i} className="relative aspect-video border-2 border-black bg-gray-100 p-1">
-                              <Image src={url} alt={`Screenshot ${i + 2}`} fill className="object-cover" unoptimized />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                   </div>
 
                   {/* Right Column - Tech Stack & Links */}
@@ -375,6 +392,41 @@ export default function GalleryPage() {
                   </div>
                 </div>
               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Full-Screen Lightbox */}
+      <AnimatePresence>
+        {fullScreenImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-black/40 backdrop-blur-xl"
+            onClick={() => setFullScreenImage(null)}
+          >
+            <button 
+              onClick={() => setFullScreenImage(null)}
+              className="absolute top-4 right-4 md:top-8 md:right-8 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors z-50"
+            >
+              <X className="w-8 h-8" />
+            </button>
+            <motion.div
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.95 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full h-full max-w-7xl max-h-[90vh] flex items-center justify-center"
+            >
+              <Image 
+                src={fullScreenImage} 
+                alt="Project Screenshot" 
+                fill 
+                className="object-contain" 
+                unoptimized
+              />
             </motion.div>
           </motion.div>
         )}

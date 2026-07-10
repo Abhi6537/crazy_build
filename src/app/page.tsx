@@ -10,10 +10,12 @@ import Team from "@/components/Team";
 import Memories from "@/components/Memories";
 import Shoutout from "@/components/Shoutout";
 import Footer from "@/components/Footer";
+import CelebrationOverlay from "@/components/CelebrationOverlay";
 
 export default function Home() {
   return (
     <>
+      <CelebrationOverlay />
       <Header />
       <main>
         <Hero />

@@ -58,37 +58,29 @@ export default function MemoriesClient({ photos }: { photos: Photo[] }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-sm"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-black/40 backdrop-blur-xl"
             onClick={() => setSelectedPhoto(null)}
           >
-            <motion.div
-              initial={{ scale: 0.95, rotate: -2 }}
-              animate={{ scale: 1, rotate: 0 }}
-              exit={{ scale: 0.95, rotate: 2 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative bg-white border-4 border-black p-2 sm:p-4 md:p-6 shadow-[8px_8px_0_0_#FF4D00] md:shadow-[16px_16px_0_0_#FF4D00] max-w-5xl w-full max-h-[90vh] flex flex-col"
-              style={{ backgroundImage: "var(--paper-grain)" }}
+            <button 
+              onClick={() => setSelectedPhoto(null)}
+              className="absolute top-4 right-4 md:top-8 md:right-8 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors z-50"
             >
-              <button 
-                onClick={() => setSelectedPhoto(null)}
-                className="absolute -top-4 -right-4 md:-top-6 md:-right-6 w-10 h-10 md:w-12 md:h-12 bg-[#FF0033] border-4 border-black flex items-center justify-center text-white hover:bg-black transition-colors z-50"
-              >
-                <X className="w-5 h-5 md:w-6 md:h-6" />
-              </button>
-              <div className="relative w-full flex-1 min-h-[300px] border-4 border-black bg-gray-100">
-                <Image 
-                  src={selectedPhoto} 
-                  alt="Event Memory Popup" 
-                  fill 
-                  className="object-contain" 
-                  unoptimized
-                />
-              </div>
-              <div className="text-center mt-3 md:mt-6 shrink-0">
-                <p className="font-display font-black text-lg md:text-2xl uppercase tracking-widest text-[#0A1128]">
-                  Crazy Build Memories
-                </p>
-              </div>
+              <X className="w-8 h-8" />
+            </button>
+            <motion.div
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.95 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full h-full max-w-7xl max-h-[90vh] flex items-center justify-center"
+            >
+              <Image 
+                src={selectedPhoto} 
+                alt="Event Memory Popup" 
+                fill 
+                className="object-contain" 
+                unoptimized
+              />
             </motion.div>
           </motion.div>
         )}
